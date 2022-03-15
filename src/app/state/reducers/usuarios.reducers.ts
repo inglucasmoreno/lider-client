@@ -1,18 +1,39 @@
 import { createReducer, on } from '@ngrx/store';
-import { Usuarios } from 'src/app/interfaces/usuarios.interface';
 import { UsuariosState } from 'src/app/interfaces/usuarios.state';
-import { loadedUsuarios, loadUsuarios } from '../actions/usuarios.actions';
+import { 
+    usuariosListados, 
+    listarUsuarios, 
+    actualizarUsuario, 
+    usuarioActualizado} from '../actions/usuarios.actions';
 
-export const initialState: UsuariosState = { loading: false, usuarios: [] }
+export const initialState: UsuariosState = { 
+    loading: false, 
+    usuarios: [], 
+    usuario: null 
+}
 
 export const usuariosReducer = createReducer(
+
     initialState,
-    // Se solicitan los nuevo usuarios
-    on(loadUsuarios, (state) => {
-        return {...state, loading: true};
+    
+    // Comienzo - Listado de usuarios
+    on(listarUsuarios, (state) => ({ ...state, loading: true })),
+    
+    // Finalizacion - Listado de usuario
+    on(usuariosListados, (state, { usuarios }) => ({ ...state, loading: false, usuarios })),
+    
+    // Comienzo - Actualizacion de usuario
+    on(actualizarUsuario, (state) => ({ ...state, loading: true })),
+    
+    // Finalizacion - Actualizacion de usuario
+    on(usuarioActualizado, (state, { usuario }) => {
+        state.usuarios.forEach(elemento => {
+            console.log(usuario);
+            if(elemento._id === usuario._id) elemento = usuario;
+            return (elemento._id === usuario._id);
+        });
+        console.log(state.usuarios);
+        return { ...state, loading: false }
     }),
-    // Se obtienen los nuevos usuarios
-    on(loadedUsuarios, (state, { usuarios }) => {
-        return {...state, loading: false, usuarios}
-    })
+
 ); 

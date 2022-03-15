@@ -4,7 +4,7 @@ import { AppState } from '../app.state';
 
 export const selectUsuariosFeature = (state: AppState) => state.usuarios;
 
-export const selectListUsuarios = createSelector(
+export const selectListarUsuarios = createSelector(
     selectUsuariosFeature,
     (state: UsuariosState) => state.usuarios
 )

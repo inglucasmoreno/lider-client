@@ -6,8 +6,8 @@ import { DataService } from 'src/app/services/data.service';
 
 import { Usuario } from '../../models/usuario.model';
 import { Store } from '@ngrx/store';
-import { loadUsuarios } from 'src/app/state/actions/usuarios.actions';
-import { selectListUsuarios, selectLoading } from 'src/app/state/selectors/usuarios.selectors';
+import { actualizarUsuario, listarUsuarios } from 'src/app/state/actions/usuarios.actions';
+import { selectListarUsuarios, selectLoading } from 'src/app/state/selectors/usuarios.selectors';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -59,10 +59,10 @@ export class UsuariosComponent implements OnInit {
   ngOnInit(): void {
     
     this.dataService.ubicacionActual = 'Dashboard - Usuarios' ;
-    this.usuarios = this.store.select(selectListUsuarios);
+    this.usuarios = this.store.select(selectListarUsuarios);
     
     // Usuarios - Suscripcion
-    this.usuarios$ = this.store.select(selectListUsuarios).subscribe((usuarios)=> {
+    this.usuarios$ = this.store.select(selectListarUsuarios).subscribe((usuarios)=> {
       this.usuarios = usuarios;
     }); 
 
@@ -82,7 +82,7 @@ export class UsuariosComponent implements OnInit {
   }
 
   // Listar usuarios
-  listarUsuarios(): void{ this.store.dispatch(loadUsuarios({direccion: this.ordenar.direccion, columna: this.ordenar.columna})); }
+  listarUsuarios(): void{ this.store.dispatch(listarUsuarios({direccion: this.ordenar.direccion, columna: this.ordenar.columna})); }
 
   // Actualizar estado Activo/Inactivo
   actualizarEstado(usuario: Usuario): void {
@@ -90,12 +90,14 @@ export class UsuariosComponent implements OnInit {
       this.alertService.question({ msg: '¿Quieres actualizar el estado?', buttonText: 'Actualizar' })
           .then(({isConfirmed}) => {  
             if (isConfirmed) {
-              this.usuariosService.actualizarUsuario(_id, {activo: !activo}).subscribe(() => {
-                this.listarUsuarios();
-              }, ({error}) => {
-                this.alertService.close();
-                this.alertService.errorApi(error.message);
-              });
+              this.store.dispatch(actualizarUsuario({id:_id, data:{activo: !activo}}));
+              // this.listarUsuarios();
+              // this.usuariosService.actualizarUsuario(_id, {activo: !activo}).subscribe(() => {
+              //   this.listarUsuarios();
+              // }, ({error}) => {
+              //   this.alertService.close();
+              //   this.alertService.errorApi(error.message);
+              // });
             }
           });
   }
