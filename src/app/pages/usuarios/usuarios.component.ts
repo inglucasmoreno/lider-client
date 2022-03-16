@@ -51,8 +51,7 @@ export class UsuariosComponent implements OnInit {
   public totalReporte = 0;
   public usuariosReporte = [];
 
-  constructor(private usuariosService: UsuariosService,
-              private store: Store<any>,
+  constructor(private store: Store<any>,
               private alertService: AlertService,
               private dataService: DataService) { }
 
@@ -88,18 +87,7 @@ export class UsuariosComponent implements OnInit {
   actualizarEstado(usuario: Usuario): void {
     const { _id, activo } = usuario;
       this.alertService.question({ msg: '¿Quieres actualizar el estado?', buttonText: 'Actualizar' })
-          .then(({isConfirmed}) => {  
-            if (isConfirmed) {
-              this.store.dispatch(actualizarUsuario({id:_id, data:{activo: !activo}}));
-              // this.listarUsuarios();
-              // this.usuariosService.actualizarUsuario(_id, {activo: !activo}).subscribe(() => {
-              //   this.listarUsuarios();
-              // }, ({error}) => {
-              //   this.alertService.close();
-              //   this.alertService.errorApi(error.message);
-              // });
-            }
-          });
+          .then(({isConfirmed}) => { if (isConfirmed) this.store.dispatch(actualizarUsuario({id:_id, data:{activo: !activo}})); });
   }
   
   // Filtrar Activo/Inactivo

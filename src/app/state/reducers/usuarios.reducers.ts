@@ -8,8 +8,7 @@ import {
 
 export const initialState: UsuariosState = { 
     loading: false, 
-    usuarios: [], 
-    usuario: null 
+    usuarios: []
 }
 
 export const usuariosReducer = createReducer(
@@ -27,13 +26,11 @@ export const usuariosReducer = createReducer(
     
     // Finalizacion - Actualizacion de usuario
     on(usuarioActualizado, (state, { usuario }) => {
-        state.usuarios.forEach(elemento => {
-            console.log(usuario);
-            if(elemento._id === usuario._id) elemento = usuario;
-            return (elemento._id === usuario._id);
+        const usuarios = state.usuarios.map(elemento => {
+            if(elemento._id === usuario._id) return usuario;
+            return elemento;
         });
-        console.log(state.usuarios);
-        return { ...state, loading: false }
+        return { ...state, loading: false, usuarios }
     }),
 
 ); 
