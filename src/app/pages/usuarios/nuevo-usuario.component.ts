@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { DataService } from 'src/app/services/data.service';
@@ -7,6 +7,10 @@ import { UsuariosService } from 'src/app/services/usuarios.service';
 import { AlertService } from '../../services/alert.service';
 
 import gsap from 'gsap';
+import { Store } from '@ngrx/store';
+import { Subscription } from 'rxjs';
+import { selectLoading } from 'src/app/state/selectors/usuarios.selectors';
+import { nuevoUsuario } from 'src/app/state/actions/usuarios.actions';
 
 @Component({
   selector: 'app-nuevo-usuario',
@@ -14,7 +18,10 @@ import gsap from 'gsap';
   styles: [
   ]
 })
-export class NuevoUsuarioComponent implements OnInit {
+export class NuevoUsuarioComponent implements OnInit, OnDestroy {
+
+  // Suscripciones
+  public loading$: Subscription;
 
   // Permisos
   public permisos = {
@@ -25,12 +32,13 @@ export class NuevoUsuarioComponent implements OnInit {
   public usuarioForm: FormGroup;
 
   constructor(private fb: FormBuilder,
+              private store: Store,
               private router: Router,
               private usuariosService: UsuariosService,
               private alertService: AlertService,
               private dataService: DataService
               ) { }
-
+  
   ngOnInit(): void {
     
     // Animaciones y Datos de ruta
@@ -39,17 +47,26 @@ export class NuevoUsuarioComponent implements OnInit {
 
     // Formulario reactivo
     this.usuarioForm = this.fb.group({
-      usuario: ['', Validators.required],
-      apellido: ['', Validators.required],
-      nombre: ['', Validators.required],
-      dni: ['', Validators.required],
-      email: ['', Validators.required],
-      password: ['', Validators.required],
-      repetir: ['', Validators.required],
-      role: ['ADMIN_ROLE', Validators.required],
+      usuario: ['yfet', Validators.required],
+      apellido: ['Fet', Validators.required],
+      nombre: ['Yamil Daher', Validators.required],
+      dni: ['34060311', Validators.required],
+      email: ['yfet@gmail.com', Validators.required],
+      password: ['craneo', Validators.required],
+      repetir: ['craneo', Validators.required],
+      role: ['USER_ROLE', Validators.required],
       activo: ['true', Validators.required]
     });
 
+    // Loading - Suscripcion
+    this.loading$ = this.store.select(selectLoading).subscribe((loading)=> {
+      loading ? this.alertService.loading() : this.alertService.close();
+    });
+
+  }
+
+  ngOnDestroy(): void {
+    this.loading$.unsubscribe();
   }
 
   // Crear nuevo usuario
@@ -58,8 +75,6 @@ export class NuevoUsuarioComponent implements OnInit {
     const { status } = this.usuarioForm;
     const {usuario, apellido, nombre, dni, email, role, password, repetir} = this.usuarioForm.value;
     
-    console.log(this.usuarioForm.valid);
-
     // Se verifica que los campos no tengan un espacio vacio
     const campoVacio = usuario.trim() === '' || 
                        apellido.trim() === '' ||
@@ -90,14 +105,16 @@ export class NuevoUsuarioComponent implements OnInit {
     this.alertService.loading();  // Comienzo de loading
 
     // Se crear el nuevo usuario
-    this.usuariosService.nuevoUsuario(data).subscribe(() => {
-      this.alertService.close();  // Finaliza el loading
-      this.router.navigateByUrl('dashboard/usuarios');
-    },( ({error}) => {
-      this.alertService.close();  // Finaliza el loading
-      this.alertService.errorApi(error.message);
-      return;  
-    }));
+    this.store.dispatch(nuevoUsuario(data));
+
+    // this.usuariosService.nuevoUsuario(data).subscribe(() => {
+    //   this.alertService.close();  // Finaliza el loading
+    //   this.router.navigateByUrl('dashboard/usuarios');
+    // },( ({error}) => {
+    //   this.alertService.close();  // Finaliza el loading
+    //   this.alertService.errorApi(error.message);
+    //   return;  
+    // }));
 
   }
   

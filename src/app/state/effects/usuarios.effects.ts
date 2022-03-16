@@ -23,6 +23,18 @@ export class UsuariosEffects {
             )))    
     });
 
+    // Nuevo usuario
+    public nuevoUsuario = createEffect(() => {
+        return this.actions.pipe(
+            ofType(UsuariosActionTypes.NUEVO_USUARIO),
+            mergeMap((usuario) => this.usuariosService.nuevoUsuario(usuario).pipe(
+                map(({ usuario }) => {
+                    return { type: UsuariosActionTypes.NUEVO_USUARIO_TERMINADO, usuario } 
+                }),
+                catchError(() => EMPTY)
+            )))    
+    });
+
     // Actualizar usuario
     public actualizarUsuario = createEffect(() => {
         return this.actions.pipe(

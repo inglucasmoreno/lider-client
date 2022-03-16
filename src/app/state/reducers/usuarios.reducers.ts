@@ -4,7 +4,9 @@ import {
     usuariosListados, 
     listarUsuarios, 
     actualizarUsuario, 
-    usuarioActualizado} from '../actions/usuarios.actions';
+    usuarioActualizado,
+    nuevoUsuario,
+    usuarioCreado} from '../actions/usuarios.actions';
 
 export const initialState: UsuariosState = { 
     loading: false, 
@@ -21,6 +23,14 @@ export const usuariosReducer = createReducer(
     // Finalizacion - Listado de usuario
     on(usuariosListados, (state, { usuarios }) => ({ ...state, loading: false, usuarios })),
     
+    // Comienzo - Nuevo usuario
+    on(nuevoUsuario, (state) => ({ ...state, loading: true })),
+
+    // Finalizacion - Nuevo usuario
+    on(usuarioCreado, (state, { usuario }) => {
+        return { ...state, loading: false }
+    }),
+
     // Comienzo - Actualizacion de usuario
     on(actualizarUsuario, (state) => ({ ...state, loading: true })),
     
