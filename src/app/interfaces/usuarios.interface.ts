@@ -1,8 +1,3 @@
-/*
-    REDUX NOTE
-    1 - Crear interface
-*/
-
 export interface Usuarios {
     _id: string,
     usuario: string,

@@ -7,32 +7,32 @@
 
             <!-- Avatar -->
             <div class="mt-3 text-center">
-                <div *ngIf="usuarioLogin.role === 'ADMIN_ROLE'" class="bg-blue-100 mr-auto ml-auto rounded-full flex items-center justify-center w-24 h-24 shadow border border-blue-200">
+                <div *ngIf="usuarioLogin?.role === 'ADMIN_ROLE'" class="bg-blue-100 mr-auto ml-auto rounded-full flex items-center justify-center w-24 h-24 shadow border border-blue-200">
                     <p class="text-4xl font-semibold text-blue-800"> A </p>
                 </div>
-                <div *ngIf="usuarioLogin.role === 'USER_ROLE'" class="bg-orange-100 mr-auto ml-auto flex items-center justify-center w-24 h-24 rounded-full shadow border border-orange-200">
+                <div *ngIf="usuarioLogin?.role === 'USER_ROLE'" class="bg-orange-100 mr-auto ml-auto flex items-center justify-center w-24 h-24 rounded-full shadow border border-orange-200">
                     <p class="text-4xl font-semibold text-orange-500"> E </p>
                 </div>
-                <p [ngClass]="{'text-orange-700':usuarioLogin.role === 'USER_ROLE'}" class="mt-1 text-sm text-primaryColor"> {{ usuarioLogin.role === 'ADMIN_ROLE' ? 'Usuario administrador' : 'Usuario estandar' }} </p>
+                <p [ngClass]="{'text-orange-700':usuarioLogin?.role === 'USER_ROLE'}" class="mt-1 text-sm text-primaryColor"> {{ usuarioLogin?.role === 'ADMIN_ROLE' ? 'Usuario administrador' : 'Usuario estandar' }} </p>
             </div>
 
             <!-- Datos de usuario -->
             <div class="w-full mt-2">
                 <div class="p-2 text-center">
                     <p class="font-semibold text-xl"> Apellido y Nombre </p>
-                    <p class="capitalize text-gray-500"> {{ usuarioLogin.apellido.toLowerCase() }} {{ usuarioLogin.nombre.toLowerCase() }} </p>
+                    <p class="capitalize text-gray-500"> {{ usuarioLogin?.apellido.toLowerCase() }} {{ usuarioLogin?.nombre.toLowerCase() }} </p>
                 </div>
                 <div class="p-2 text-center mt-1">
                     <p class="font-semibold text-xl"> DNI </p>
-                    <p class="text-gray-500"> {{ usuarioLogin.dni }} </p>
+                    <p class="text-gray-500"> {{ usuarioLogin?.dni }} </p>
                 </div>
                 <div class="p-2 text-center mt-1">
                     <p class="font-semibold text-xl"> Correo electrónico </p>
-                    <p class="text-gray-500"> {{ usuarioLogin.email }} </p>
+                    <p class="text-gray-500"> {{ usuarioLogin?.email }} </p>
                 </div>
                 <div class="p-2 text-center mt-1">
                     <p class="font-semibold text-xl"> Fecha de ingreso </p>
-                    <p class="text-gray-500"> {{ usuarioLogin.createdAt | fecha }} </p>
+                    <p class="text-gray-500"> {{ usuarioLogin?.createdAt | fecha }} </p>
                 </div>
             </div>
 
@@ -43,11 +43,11 @@
         <form [formGroup]="passwordForm" (submit)="actualizarPassword()" class="p-2">
             <div>
                 <p class="font-semibold ml-2"> Nueva contraseña </p>
-                <input formControlName="password" type="password" placeholder="Ingresar contraseña" [ngClass]="{'focus:border-orange-500' : usuarioLogin.role !== 'ADMIN_ROLE'}" class="p-2 border-b-2 transform outline-none duration-500 focus:border-blue-900 focus:outline-none w-full">
+                <input formControlName="password" type="password" placeholder="Ingresar contraseña" [ngClass]="{'focus:border-orange-500' : usuarioLogin?.role !== 'ADMIN_ROLE'}" class="p-2 border-b-2 transform outline-none duration-500 focus:border-blue-900 focus:outline-none w-full">
             </div>
             <div class="mt-2 mb-2">
                 <p class="font-semibold ml-2"> Repetir contraseña </p>
-                <input formControlName="repetir" type="password" placeholder="Repite la contraseña" [ngClass]="{'focus:border-orange-500' : usuarioLogin.role !== 'ADMIN_ROLE'}" class="p-2 border-b-2 transform outline-none duration-500 focus:border-blue-900 focus:outline-none w-full">
+                <input formControlName="repetir" type="password" placeholder="Repite la contraseña" [ngClass]="{'focus:border-orange-500' : usuarioLogin?.role !== 'ADMIN_ROLE'}" class="p-2 border-b-2 transform outline-none duration-500 focus:border-blue-900 focus:outline-none w-full">
             </div>
             <app-boton-formulario [deshabilitado]="!passwordForm.valid || (passwordForm.value.password.trim() !== passwordForm.value.repetir.trim())" texto="Actualizar contraseña"></app-boton-formulario>
         </form>

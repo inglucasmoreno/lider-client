@@ -1,13 +1,12 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
-import { UsuariosService } from '../../services/usuarios.service';
 import { AlertService } from '../../services/alert.service';
 import { DataService } from 'src/app/services/data.service';
 
 import { Usuario } from '../../models/usuario.model';
 import { Store } from '@ngrx/store';
 import { actualizarUsuario, listarUsuarios } from 'src/app/state/actions/usuarios.actions';
-import { selectListarUsuarios, selectLoading } from 'src/app/state/selectors/usuarios.selectors';
+import { selectUsuarios, selectLoading, selectError } from 'src/app/state/selectors/usuarios.selectors';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -16,16 +15,16 @@ import { Subscription } from 'rxjs';
   styles: [
   ]
 })
-export class UsuariosComponent implements OnInit {
+export class UsuariosComponent implements OnInit, OnDestroy {
 
   // Permisos
   public permiso_escritura: string[] = ['USUARIOS_ALL'];
 
   // Usuarios Listados
-  // public usuarios$: Observable<any> = new Observable();
   public usuarios;
-  public usuarios$: Subscription;
-  public loading$: Subscription;
+  public _usuarios: Subscription;
+  public _error: Subscription;
+  public _loading: Subscription;
 
   // public usuarios: Usuario[];
 
@@ -58,26 +57,38 @@ export class UsuariosComponent implements OnInit {
   ngOnInit(): void {
     
     this.dataService.ubicacionActual = 'Dashboard - Usuarios' ;
-    this.usuarios = this.store.select(selectListarUsuarios);
-    
-    // Usuarios - Suscripcion
-    this.usuarios$ = this.store.select(selectListarUsuarios).subscribe((usuarios)=> {
-      this.usuarios = usuarios;
-    }); 
-
-    // Loading - Suscripcion
-    this.loading$ = this.store.select(selectLoading).subscribe((loading)=> {
-      loading ? this.alertService.loading() : this.alertService.close();
-    });
+    this.usuarios = this.store.select(selectUsuarios);
+  
+    this.subscripciones();
 
     this.listarUsuarios();
   
   }
 
+  // Subscripciones
+  subscripciones(): void {
+    
+    // Usuarios - Suscripcion
+    this._usuarios = this.store.select(selectUsuarios).subscribe((usuarios)=> {
+      this.usuarios = usuarios;
+    }); 
+
+    // Loading - Suscripcion
+    this._loading = this.store.select(selectLoading).subscribe((loading)=> {
+      loading ? this.alertService.loading() : this.alertService.close();
+    });
+
+    // Error - Suscripcion
+    this._error = this.store.select(selectError).subscribe((error)=> {
+      error.trim() !== '' ? this.alertService.errorApi(error) : null;
+    });
+  
+  }
+
   ngOnDestroy(): void {
-    // Cancelacion de suscripciones
-    this.usuarios$.unsubscribe();
-    this.loading$.unsubscribe();
+    this._usuarios.unsubscribe();
+    this._loading.unsubscribe();
+    this._error.unsubscribe();
   }
 
   // Listar usuarios

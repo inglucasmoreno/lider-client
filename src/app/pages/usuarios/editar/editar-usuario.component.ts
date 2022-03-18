@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
@@ -8,6 +8,10 @@ import { AlertService } from 'src/app/services/alert.service';
 import { DataService } from 'src/app/services/data.service';
 
 import gsap from 'gsap';
+import { Store } from '@ngrx/store';
+import { actualizarUsuario, limpiarEstados, obtenerUsuario } from 'src/app/state/actions/usuarios.actions';
+import { selectError, selectLoading, selectRedirect, selectUsuario } from 'src/app/state/selectors/usuarios.selectors';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-editar-usuario',
@@ -15,7 +19,12 @@ import gsap from 'gsap';
   styles: [
   ]
 })
-export class EditarUsuarioComponent implements OnInit {
+export class EditarUsuarioComponent implements OnInit, OnDestroy {
+
+  public _loading: Subscription;
+  public _usuario: Subscription;
+  public _redirect: Subscription;
+  public _error: Subscription;
 
   // Permisos
   public permisos = {
@@ -28,13 +37,16 @@ export class EditarUsuarioComponent implements OnInit {
 
   constructor(private router: Router,
               private fb: FormBuilder,
+              private store: Store,
               private activatedRoute: ActivatedRoute,
               private usuariosService: UsuariosService,
               private alertService: AlertService,
               private dataService: DataService) { }
 
   ngOnInit(): void {
-    
+
+    this.store.dispatch(limpiarEstados());
+
     // Animaciones y Datos de ruta
     gsap.from('.gsap-contenido', { y:100, opacity: 0, duration: .2 });
     this.dataService.ubicacionActual = 'Dashboard - Editando usuario';
@@ -50,8 +62,62 @@ export class EditarUsuarioComponent implements OnInit {
       activo: ['true', Validators.required],
     });
   
-    this.getUsuario(); // Datos iniciales de usuarios
+    this.subscripciones();
 
+    this.activatedRoute.params.subscribe(({id}) => { 
+      this.id = id; 
+      this.store.dispatch(obtenerUsuario({ id }));    
+    });
+
+    // this.getUsuario(); // Datos iniciales de usuarios
+
+  }
+
+  subscripciones(): void {
+    
+    // Usuario - Suscripcion
+    this._usuario = this.store.select(selectUsuario).subscribe((usuarioRes)=> {
+      
+      this.usuario = usuarioRes;
+      
+      if(usuarioRes){
+        const {usuario, apellido, nombre, dni, email, role, activo} = this.usuario;
+  
+        this.usuarioForm.patchValue({
+          usuario,
+          apellido,
+          nombre,
+          dni,
+          email,
+          role,
+          activo: String(activo)
+        });
+      }
+    
+    });    
+
+    // Loading - Suscripcion
+    this._loading = this.store.select(selectLoading).subscribe((loading)=> {
+      loading ? this.alertService.loading() : this.alertService.close();
+    });
+
+    // Redirect - Suscripcion
+    this._redirect = this.store.select(selectRedirect).subscribe((redirect)=> {
+      redirect ? this.router.navigateByUrl('dashboard/usuarios')  : null;
+    });
+
+    // Error - Suscripcion
+    this._error = this.store.select(selectError).subscribe((error)=> {
+      error.trim() !== '' ? this.alertService.errorApi(error) : null;
+    });
+  
+  }
+
+  ngOnDestroy(): void {
+    this._loading.unsubscribe();
+    this._usuario.unsubscribe();
+    this._redirect.unsubscribe();
+    this._error.unsubscribe();
   }
 
   // Datos iniciales de usuarios
@@ -121,15 +187,7 @@ export class EditarUsuarioComponent implements OnInit {
     if(role !== 'ADMIN_ROLE') data.permisos = this.adicionarPermisos(); // Se adicionan los permisos a la data para actualizacion
     else data.permisos = [];
 
-    this.alertService.loading();
-
-    this.usuariosService.actualizarUsuario(this.id, data).subscribe(() => {
-      this.alertService.close();
-      this.router.navigateByUrl('dashboard/usuarios');
-    }, ({error}) => {
-      this.alertService.close();
-      this.alertService.errorApi(error.message);
-    });
+    this.store.dispatch(actualizarUsuario({id: this.id, data}));
 
   }
 

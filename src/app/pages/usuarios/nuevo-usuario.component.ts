@@ -1,16 +1,15 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 import { DataService } from 'src/app/services/data.service';
 
-import { UsuariosService } from 'src/app/services/usuarios.service';
 import { AlertService } from '../../services/alert.service';
 
 import gsap from 'gsap';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
-import { selectLoading } from 'src/app/state/selectors/usuarios.selectors';
-import { nuevoUsuario } from 'src/app/state/actions/usuarios.actions';
+import { selectError, selectLoading, selectRedirect } from 'src/app/state/selectors/usuarios.selectors';
+import { limpiarEstados, nuevoUsuario } from 'src/app/state/actions/usuarios.actions';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-nuevo-usuario',
@@ -21,7 +20,9 @@ import { nuevoUsuario } from 'src/app/state/actions/usuarios.actions';
 export class NuevoUsuarioComponent implements OnInit, OnDestroy {
 
   // Suscripciones
-  public loading$: Subscription;
+  public _loading: Subscription;
+  public _error: Subscription;
+  public _redirect: Subscription;
 
   // Permisos
   public permisos = {
@@ -34,39 +35,58 @@ export class NuevoUsuarioComponent implements OnInit, OnDestroy {
   constructor(private fb: FormBuilder,
               private store: Store,
               private router: Router,
-              private usuariosService: UsuariosService,
               private alertService: AlertService,
               private dataService: DataService
               ) { }
   
   ngOnInit(): void {
     
+    this.store.dispatch(limpiarEstados());
+
     // Animaciones y Datos de ruta
     gsap.from('.gsap-contenido', { y:100, opacity: 0, duration: .2 });
     this.dataService.ubicacionActual = 'Dashboard - Creando usuario';
 
     // Formulario reactivo
     this.usuarioForm = this.fb.group({
-      usuario: ['yfet', Validators.required],
-      apellido: ['Fet', Validators.required],
-      nombre: ['Yamil Daher', Validators.required],
-      dni: ['34060311', Validators.required],
-      email: ['yfet@gmail.com', Validators.required],
-      password: ['craneo', Validators.required],
-      repetir: ['craneo', Validators.required],
+      usuario: ['', Validators.required],
+      apellido: ['', Validators.required],
+      nombre: ['', Validators.required],
+      dni: ['', Validators.required],
+      email: ['', Validators.required],
+      password: ['', Validators.required],
+      repetir: ['', Validators.required],
       role: ['USER_ROLE', Validators.required],
       activo: ['true', Validators.required]
     });
 
+    this.subscripciones();
+
+  }
+
+  subscripciones(): void {
+
     // Loading - Suscripcion
-    this.loading$ = this.store.select(selectLoading).subscribe((loading)=> {
+    this._loading = this.store.select(selectLoading).subscribe((loading)=> {
       loading ? this.alertService.loading() : this.alertService.close();
+    });
+
+    // Redirect - Suscripcion
+    this._redirect = this.store.select(selectRedirect).subscribe((redirect)=> {
+      redirect ? this.router.navigateByUrl('dashboard/usuarios')  : null;
+    });
+
+    // Error - Suscripcion
+    this._error = this.store.select(selectError).subscribe((error)=> {
+      error.trim() !== '' ? this.alertService.errorApi(error) : null;
     });
 
   }
 
   ngOnDestroy(): void {
-    this.loading$.unsubscribe();
+    this._loading.unsubscribe();
+    this._redirect.unsubscribe();
+    this._error.unsubscribe();
   }
 
   // Crear nuevo usuario
@@ -105,16 +125,8 @@ export class NuevoUsuarioComponent implements OnInit, OnDestroy {
     this.alertService.loading();  // Comienzo de loading
 
     // Se crear el nuevo usuario
+    this.store.dispatch(limpiarEstados());
     this.store.dispatch(nuevoUsuario(data));
-
-    // this.usuariosService.nuevoUsuario(data).subscribe(() => {
-    //   this.alertService.close();  // Finaliza el loading
-    //   this.router.navigateByUrl('dashboard/usuarios');
-    // },( ({error}) => {
-    //   this.alertService.close();  // Finaliza el loading
-    //   this.alertService.errorApi(error.message);
-    //   return;  
-    // }));
 
   }
   
