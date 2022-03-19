@@ -76,8 +76,10 @@ export class EditarUsuarioComponent implements OnInit, OnDestroy {
   subscripciones(): void {
     
     // Usuario - Suscripcion
-    this._usuario = this.store.select(selectUsuario).subscribe((usuarioRes)=> {
+    this._usuario = this.store.select(selectUsuario).subscribe((usuarioRes: any)=> {
       
+      usuarioRes ? this.getPermisos(usuarioRes.permisos) : null; // Se obtienen los permisos
+
       this.usuario = usuarioRes;
       
       if(usuarioRes){
@@ -118,37 +120,6 @@ export class EditarUsuarioComponent implements OnInit, OnDestroy {
     this._usuario.unsubscribe();
     this._redirect.unsubscribe();
     this._error.unsubscribe();
-  }
-
-  // Datos iniciales de usuarios
-  getUsuario(): void {
-    
-    // Se buscan los datos iniciales del usuario a editar
-    this.alertService.loading();
-    this.activatedRoute.params.subscribe(({id}) => { this.id = id; });
-    this.usuariosService.getUsuario(this.id).subscribe(usuarioRes => {
-      
-      // Marcar permisos
-      this.getPermisos(usuarioRes.permisos); // Se obtienen los permisos
-
-      this.usuario = usuarioRes;
-      const {usuario, apellido, nombre, dni, email, role, activo} = this.usuario;
-
-      this.usuarioForm.patchValue({
-        usuario,
-        apellido,
-        nombre,
-        dni,
-        email,
-        role,
-        activo: String(activo)
-      });
-
-      this.alertService.close();
-    },({error})=> {
-      this.alertService.errorApi(error.message); 
-    });
-  
   }
 
   // Se obtienen los permisos
