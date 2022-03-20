@@ -1,0 +1,30 @@
+<div class="w-full rounded-t mt-10 border shadow-xl">
+    <div class="relative">
+        <img class="rounded-t object-cover w-full h-60" [src]="elemento.img" alt="Testing">
+        <p  [ngClass]="{'bg-green-700' : elemento.venta, 'bg-orange-700' : !elemento.venta}"
+            class="absolute top-0 right-0 py-2 px-4 text-white opacity-80"> 
+            {{ elemento.venta ? 'Venta' : 'Alquiler' }}
+        </p>
+        <p class="absolute bottom-0 left-0 bg-gray-900 p-2 text-white opacity-80">
+            {{ elemento.codigo }}
+        </p>
+    </div>
+    <div class="p-2">
+        <p> {{ elemento.detalles }} </p>
+        <div class="mt-5">
+            <div>
+                <p class="text-sm capitalize"> {{ elemento.tipo.toLowerCase() }} </p>
+                <p class="text-sm capitalize"> {{ elemento.ubicacion.toLowerCase() }} </p>
+            </div>
+        </div>
+        <div class="flex items-center justify-between mt-2">
+            <div></div>
+            <p class="text-md text-secondaryColor text-lg"> {{ elemento.precio.usd ? 'US$' : '$' }}{{ elemento.precio.valor | moneda }} </p>
+        </div>
+    </div>
+    <div class="bg-gray-200 w-full h-10"></div>
+    <div class="flex items-center justify-center mt-2 mb-2 w-full p-2">
+        <button class="p-2 border rounded hover:bg-blue-100 w-1/2 hover:border-blue-200 hover:text-secondaryColor hover:font-semibold bg-secondaryColor text-white"> Contactar asesor </button>
+        <button class="p-2 border rounded hover:bg-blue-100 hover:border-blue-200 hover:text-secondaryColor hover:font-semibold ml-2 w-1/2 bg-secondaryColor text-white"> Detalles </button>
+    </div>
+</div>
