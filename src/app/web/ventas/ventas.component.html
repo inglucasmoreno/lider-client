@@ -1,1 +1,55 @@
-<p>ventas works!</p>
+<div>
+    <!-- Buscador -->
+    <div class="relative">
+        <img class="w-full h-96 object-cover blur-sm" src="https://services.meteored.com/img/article/hoy-en-el-dia-mundial-del-campo-analizamos-la-influencia-del-camblio-climatico-6922-1_1280.jpg" alt="">
+        <img class="md:w-1/2 h-96 absolute top-0 bottom-0 mx-auto left-0 right-0 object-cover" src="https://services.meteored.com/img/article/hoy-en-el-dia-mundial-del-campo-analizamos-la-influencia-del-camblio-climatico-6922-1_1280.jpg" alt="">
+        <div class="w-11/12 lg:w-1/3 h-max pb-5 pt-4 rounded shadow-lg opacity-95 absolute top-10 left-0 bottom-10 right-0 bg-secondaryColor mt-10 mx-auto p-2">
+            <h2 class="text-white text-center text-2xl"> Búsqueda de ventas </h2>
+            <h3 class="text-center text-white mt-1"> Datos del inmueble </h3>
+            <div class="mt-4 flex items-center">
+                <div class="p-2 w-1/2">
+                    <select class="border bg-white p-2 w-full focus:outline-none rounded">
+                        <option value=""> Tipo </option>
+                        <option value="alquileres"> Casa </option>
+                        <option value="alquileres"> Departamento </option>
+                        <option value="alquileres"> Local comercial </option>
+                        <option value="alquileres"> Monoambiente </option>
+                        <option value="alquileres"> Oficina </option>
+                        <option value="alquileres"> Terreno/Lote </option>
+                        <option value="alquileres"> Campo </option>
+                    </select>
+                </div>
+                <div class="p-2 w-1/2">
+                    <select class="border bg-white p-2 w-full focus:outline-none rounded">
+                        <option value=""> Provincia </option>
+                        <option value="San Luis"> San Luis </option>
+                        <option value="Cordoba"> Cordoba </option>
+                    </select>
+                </div>
+            </div>
+            <div class="flex items-center">
+                <div class="p-2 w-1/2">
+                    <div class="flex items-center">
+                        <span class="py-2 px-3 rounded-l bg-gray-100 border-r font-semibold"> $ </span>
+                        <input type="number" min="0" placeholder="Precio desde" class="bg-white focus:outline-none rounded-r w-full p-2">
+                    </div>
+                </div>
+                <div class="p-2 w-1/2">
+                    <div class="flex items-center">
+                        <span class="py-2 px-3 rounded-l bg-gray-100 border-r font-semibold"> $ </span>
+                        <input type="number" min="0" placeholder="Precio hasta" class="bg-white focus:outline-none rounded-r w-full p-2">
+                    </div>
+                </div>
+            </div>
+            <div class="p-2 w-full">
+                <button class="p-2 border bg-gray-100 hover:bg-blue-100 hover:border-blue-200 hover:text-secondaryColor w-full rounded font-semibold"> Buscar </button>
+            </div>
+        </div>
+    </div>
+<div class="flex items-center flex-wrap">
+    <div class="w-full lg:w-1/3 xl:w-1/4 p-2" *ngFor="let elemento of elementos">
+        <app-tarjeta [elemento]="elemento"></app-tarjeta>    
+    </div>
+</div>
+</div>
+
