@@ -25,7 +25,7 @@ import { ContactenosComponent } from './contactenos/contactenos.component';
   imports: [
     CommonModule,
     AppRoutingModule,
-    PipesModule
+    PipesModule,
   ]
 })
 export class WebModule { }

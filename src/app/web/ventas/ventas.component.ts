@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import gsap from 'gsap';
 
 @Component({
   selector: 'app-ventas',
@@ -63,6 +64,11 @@ export class VentasComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    var tl = gsap.timeline({defaults: { duration: 0.1 }});
+
+    tl.from('.gsap-imagen', { x:-200, opacity: 0, duration: 0.5, ease: 'back' })
+      .from('.gsap-buscador', { y:100, opacity: 0, duration: 0.5, ease: 'back' })
+      .from('.gsap-tarjetas', { y:100, opacity: 0, duration: 0.5, ease: 'back' });
   }
 
 }

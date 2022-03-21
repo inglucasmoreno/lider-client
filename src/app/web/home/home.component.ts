@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import gsap from 'gsap';
 
 @Component({
   selector: 'app-home',
@@ -71,7 +72,15 @@ export class HomeComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+   
+    var tl = gsap.timeline({defaults: { duration: 0.1 }});
+
+    tl.from('.gsap-imagen', { x:-200, opacity: 0, duration: 0.5, ease: 'back' })
+      .from('.gsap-buscador', { y:100, opacity: 0, duration: 0.5, ease: 'back' })
+      .from('.gsap-tarjetas', { y:100, opacity: 0, duration: 0.5, ease: 'back' });
+      
+    }
 
   cambiarImagen(accion: string): void {
     if(accion === 'incrementar' && this.imgNumber < this.imagenes.length - 1) this.imgNumber += 1;
