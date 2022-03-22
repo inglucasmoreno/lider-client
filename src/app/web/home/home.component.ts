@@ -9,6 +9,10 @@ import gsap from 'gsap';
 })
 export class HomeComponent implements OnInit {
 
+  // Modal
+  public showAsesor = true;
+  public showDetalle = false;
+
   public imagenes = [
     { title: 'Potrero de los funes', src: 'https://www.serargentino.com/public/images/2020/10/16038162220-Potrero-de-los-Funes-773x458.jpg' },
     { title: 'La florida', src: 'https://tripin.travel/wp-content/uploads/2016/10/Dique-La-Florida-San-Luis-Argentina.jpg' },
