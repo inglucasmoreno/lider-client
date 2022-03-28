@@ -10,7 +10,7 @@ import gsap from 'gsap';
 export class HomeComponent implements OnInit {
 
   // Modal
-  public showAsesor = true;
+  public showAsesor = false;
   public showDetalle = false;
 
   public imagenes = [

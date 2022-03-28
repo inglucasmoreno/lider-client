@@ -9,7 +9,7 @@ import gsap from 'gsap';
 })
 export class VentasComponent implements OnInit {
 
-  public showAsesor = true;
+  public showAsesor = false;
 
   public elementos = [
     { 

@@ -11,6 +11,7 @@ import { AlquileresComponent } from './alquileres/alquileres.component';
 import { VentasComponent } from './ventas/ventas.component';
 import { ContactenosComponent } from './contactenos/contactenos.component';
 import { ComponentsModule } from '../components/components.module';
+import { DetallesInmuebleComponent } from './detalles-inmueble/detalles-inmueble.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { ComponentsModule } from '../components/components.module';
     AlquileresComponent,
     VentasComponent,
     ContactenosComponent,
+    DetallesInmuebleComponent,
   ],
   imports: [
     CommonModule,
