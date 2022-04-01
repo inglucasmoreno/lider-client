@@ -14,6 +14,7 @@ import { EditarPasswordComponent } from './usuarios/editar/editar-password.compo
 import { NgxPaginationModule } from 'ngx-pagination';
 import { DirectivesModule } from '../directives/directives.module';
 import { PerfilComponent } from './perfil/perfil.component';
+import { InmueblesComponent } from './inmuebles/inmuebles.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { PerfilComponent } from './perfil/perfil.component';
     EditarUsuarioComponent,
     EditarPasswordComponent,
     PerfilComponent,
+    InmueblesComponent,
   ],
   imports: [
     CommonModule,

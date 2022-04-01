@@ -1,13 +1,11 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 import { AlertService } from '../../services/alert.service';
 import { DataService } from 'src/app/services/data.service';
 
 import { Usuario } from '../../models/usuario.model';
-import { Store } from '@ngrx/store';
-import { actualizarUsuario, listarUsuarios } from 'src/app/state/actions/usuarios.actions';
-import { selectUsuarios, selectLoading, selectError } from 'src/app/state/selectors/usuarios.selectors';
-import { Subscription } from 'rxjs';
+import { UsuariosService } from 'src/app/services/usuarios.service';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-usuarios',
@@ -15,19 +13,16 @@ import { Subscription } from 'rxjs';
   styles: [
   ]
 })
-export class UsuariosComponent implements OnInit, OnDestroy {
+export class UsuariosComponent implements OnInit {
 
   // Permisos
   public permiso_escritura: string[] = ['USUARIOS_ALL'];
 
+  // Permisos de usuarios login
+  public permisos = { all: false };
+
   // Usuarios Listados
-  public usuarios;
-  public _usuarios: Subscription;
-  public _error: Subscription;
-  public _loading: Subscription;
-
-  // public usuarios: Usuario[];
-
+  public usuarios: Usuario[];
   public total = 0;
 
   // Paginacion
@@ -50,55 +45,73 @@ export class UsuariosComponent implements OnInit, OnDestroy {
   public totalReporte = 0;
   public usuariosReporte = [];
 
-  constructor(private store: Store<any>,
+  constructor(private usuariosService: UsuariosService,
+              public authService: AuthService,
               private alertService: AlertService,
               private dataService: DataService) { }
 
   ngOnInit(): void {
-    
-    this.dataService.ubicacionActual = 'Dashboard - Usuarios' ;
-    this.usuarios = this.store.select(selectUsuarios);
-  
-    this.subscripciones();
-
-    this.listarUsuarios();
-  
+    this.dataService.ubicacionActual = 'Dashboard - Usuarios';
+    this.permisos.all = this.permisosUsuarioLogin();
+    this.alertService.loading();
+    this.listarUsuarios(); 
   }
 
-  // Subscripciones
-  subscripciones(): void {
-    
-    // Usuarios - Suscripcion
-    this._usuarios = this.store.select(selectUsuarios).subscribe((usuarios)=> {
-      this.usuarios = usuarios;
-    }); 
-
-    // Loading - Suscripcion
-    this._loading = this.store.select(selectLoading).subscribe((loading)=> {
-      loading ? this.alertService.loading() : this.alertService.close();
-    });
-
-    // Error - Suscripcion
-    this._error = this.store.select(selectError).subscribe((error)=> {
-      error.trim() !== '' ? this.alertService.errorApi(error) : null;
-    });
-  
-  }
-
-  ngOnDestroy(): void {
-    this._usuarios.unsubscribe();
-    this._loading.unsubscribe();
-    this._error.unsubscribe();
+  // Asignar permisos de usuario login
+  permisosUsuarioLogin(): boolean {
+    return this.authService.usuario.permisos.includes('USUARIOS_ALL') || this.authService.usuario.role === 'ADMIN_ROLE';
   }
 
   // Listar usuarios
-  listarUsuarios(): void{ this.store.dispatch(listarUsuarios({direccion: this.ordenar.direccion, columna: this.ordenar.columna})); }
+  listarUsuarios(): void {
+    this.usuariosService.listarUsuarios( 
+      this.ordenar.direccion,
+      this.ordenar.columna
+      )
+    .subscribe({
+      
+      next: resp => {
+        const { usuarios, total } = resp;
+        console.log(usuarios);
+        this.usuarios = usuarios;
+        this.total = total;
+        this.alertService.close();
+      },
+      
+      error: ({error}) => {
+        this.alertService.close();
+        this.alertService.errorApi(error.message);
+      }
+
+    });  
+    
+  }
 
   // Actualizar estado Activo/Inactivo
   actualizarEstado(usuario: Usuario): void {
     const { _id, activo } = usuario;
-      this.alertService.question({ msg: '¿Quieres actualizar el estado?', buttonText: 'Actualizar' })
-          .then(({isConfirmed}) => { if (isConfirmed) this.store.dispatch(actualizarUsuario({id:_id, data:{activo: !activo}})); });
+
+    if(!this.permisos.all) return this.alertService.info('Usted no tiene permiso para realizar esta acción');
+
+    this.alertService.question({ msg: '¿Quieres actualizar el estado?', buttonText: 'Actualizar' })
+        .then(({isConfirmed}) => {  
+          if (isConfirmed) {
+            this.alertService.loading();
+            this.usuariosService.actualizarUsuario(_id, {activo: !activo}).subscribe({
+              
+              next: () => {
+                this.alertService.loading();
+                this.listarUsuarios();       
+              },
+
+              error: ({error}) => {
+              this.alertService.close();
+              this.alertService.errorApi(error.message);
+              }
+              
+            });
+          }
+        });
   }
   
   // Filtrar Activo/Inactivo
@@ -120,5 +133,6 @@ export class UsuariosComponent implements OnInit, OnDestroy {
     this.alertService.loading();
     this.listarUsuarios();
   }
+
 
 }

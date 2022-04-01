@@ -17,11 +17,6 @@ import { FormsModule } from '@angular/forms';
 import { PipesModule } from './pipes/pipes.module';
 import { environment } from '../environments/environment';
 import { WebModule } from './web/web.module';
-import { StoreModule } from '@ngrx/store';
-import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { ROOT_REDUCERS } from './state/app.state';
-import { EffectsModule } from '@ngrx/effects';
-import { UsuariosEffects } from './state/effects/usuarios.effects';
 
 const config: SocketIoConfig = { url: environment.base_url, options: {} };
 
@@ -43,9 +38,6 @@ const config: SocketIoConfig = { url: environment.base_url, options: {} };
     SharedModule,
     NgxPaginationModule,
     FormsModule,
-    StoreModule.forRoot(ROOT_REDUCERS),
-    StoreDevtoolsModule.instrument({ name: 'TEST' }),
-    EffectsModule.forRoot([UsuariosEffects]),
   ],
   providers: [],
   bootstrap: [AppComponent]
