@@ -3,6 +3,8 @@
 
 export const items = [
     { svg: 'usuarios', route: 'usuarios', item: 'Usuarios', permiso:['USUARIOS_NAV'] },
+    { svg: 'propietarios', route: 'propietarios', item: 'Propietarios', permiso:['PROPIETARIOS_NAV'] },
     { svg: 'inmuebles', route: 'inmuebles', item: 'Inmuebles', permiso:['INMUEBLES_NAV'] },
-    // { svg: 'productos', route: 'productos', item: 'Productos', permiso:['PRODUCTOS_NAV'] },
+    { svg: 'inmobiliaria', route: 'inmobiliaria', item: 'Inmobiliaria', permiso:['INMOBILIARIA_NAV'] },
+    { svg: 'consultas', route: 'consultas', item: 'Consultas', permiso:['CONSULTAS_NAV'] },
 ];

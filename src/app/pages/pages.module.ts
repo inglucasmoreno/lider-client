@@ -15,6 +15,11 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { DirectivesModule } from '../directives/directives.module';
 import { PerfilComponent } from './perfil/perfil.component';
 import { InmueblesComponent } from './inmuebles/inmuebles.component';
+import { NuevoInmuebleComponent } from './inmuebles/nuevo-inmueble.component';
+import { EditarInmuebleComponent } from './inmuebles/editar/editar-inmueble.component';
+import { PropietariosComponent } from './propietarios/propietarios.component';
+import { InmobiliariaComponent } from './inmobiliaria/inmobiliaria.component';
+import { ConsultasComponent } from './consultas/consultas.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +31,11 @@ import { InmueblesComponent } from './inmuebles/inmuebles.component';
     EditarPasswordComponent,
     PerfilComponent,
     InmueblesComponent,
+    NuevoInmuebleComponent,
+    EditarInmuebleComponent,
+    PropietariosComponent,
+    InmobiliariaComponent,
+    ConsultasComponent,
   ],
   imports: [
     CommonModule,

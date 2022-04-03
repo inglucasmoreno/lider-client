@@ -14,6 +14,11 @@ import { EditarUsuarioComponent } from './usuarios/editar/editar-usuario.compone
 import { EditarPasswordComponent } from './usuarios/editar/editar-password.component';
 import { PerfilComponent } from './perfil/perfil.component';
 import { InmueblesComponent } from './inmuebles/inmuebles.component';
+import { NuevoInmuebleComponent } from './inmuebles/nuevo-inmueble.component';
+import { EditarInmuebleComponent } from './inmuebles/editar/editar-inmueble.component';
+import { PropietariosComponent } from './propietarios/propietarios.component';
+import { InmobiliariaComponent } from './inmobiliaria/inmobiliaria.component';
+import { ConsultasComponent } from './consultas/consultas.component';
 
 const routes: Routes = [
     {
@@ -34,10 +39,20 @@ const routes: Routes = [
             { path: 'usuarios/editar/:id', data: { permisos: 'USUARIOS_NAV' }, canActivate: [PermisosGuard], component: EditarUsuarioComponent },
             { path: 'usuarios/password/:id', data: { permisos: 'USUARIOS_NAV' }, canActivate: [PermisosGuard], component: EditarPasswordComponent },
 
+            // Propietarios
+            { path: 'propietarios', data: { permisos: 'PROPIETARIOS_NAV' }, canActivate: [PermisosGuard], component: PropietariosComponent },
+
             // Inmuebles
             { path: 'inmuebles', data: { permisos: 'INMUEBLES_NAV' }, canActivate: [PermisosGuard], component: InmueblesComponent },
+            { path: 'inmuebles/nuevo', data: { permisos: 'INMUEBLES_NAV' }, canActivate: [PermisosGuard], component: NuevoInmuebleComponent },
+            { path: 'inmuebles/editar/:id', data: { permisos: 'INMUEBLES_NAV' }, canActivate: [PermisosGuard], component: EditarInmuebleComponent },
+    
+            // Inmobiliaria
+            { path: 'inmobiliaria', data: { permisos: 'INMOBILIARIA_NAV' }, canActivate: [PermisosGuard], component: InmobiliariaComponent },
 
-     
+            // Consultas
+            { path: 'consultas', data: { permisos: 'CONSULTAS_NAV' }, canActivate: [PermisosGuard], component: ConsultasComponent },
+
         ]
     }
 ];

@@ -72,7 +72,6 @@ export class UsuariosComponent implements OnInit {
       
       next: resp => {
         const { usuarios, total } = resp;
-        console.log(usuarios);
         this.usuarios = usuarios;
         this.total = total;
         this.alertService.close();
