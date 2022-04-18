@@ -9,20 +9,20 @@
             </button>
         </div>
         <form [formGroup]="propietarioForm" (submit)=" tipoAccion === 'creando' ? crearPropietario() : actualizarPropietario()" class="p-3">
-            <div class="flex items-center">
-                <div class="w-1/2">
+            <div class="lg:flex lg:items-center">
+                <div class="lg:w-1/2">
                     <label class="font-semibold"> <span class="text-red-500"> * </span> Descripción </label>
                     <input formControlName="descripcion" placeholder="Ej. Equinoccio Technology" type="text" 
                            class="border-b-2 py-2 outline-none text-sm focus:outline-none transform duration-500 focus:border-primaryColor w-full border-gray-300">
                 </div> 
-                <div class="w-1/2 ml-4">
+                <div class="lg:w-1/2 mt-4 lg:mt-0 lg:ml-4">
                     <label class="font-semibold"> Teléfono </label>
                     <input formControlName="telefono" placeholder="Ej. 2664869642" type="text" 
                            class="border-b-2 py-2 outline-none text-sm focus:outline-none transform duration-500 focus:border-primaryColor w-full border-gray-300">
                 </div>               
             </div>
-            <div class="flex items-center mt-4">
-                <div class="w-1/2">
+            <div class="lg:flex lg:items-center mt-4">
+                <div class="lg:w-1/2">
                     <label class="font-semibold"> Tipo de identificación </label>
                     <select formControlName="identificacion_tipo" type="text" 
                             class="border-b-2 py-2 outline-none text-sm focus:outline-none transform duration-500 focus:border-primaryColor w-full border-gray-300">
@@ -31,19 +31,19 @@
                         <option value="CUIL"> CUIL </option>
                     </select>
                     </div> 
-                <div class="w-1/2 ml-4">
+                <div class="lg:w-1/2 mt-4 lg:mt-0 lg:ml-4">
                     <label class="font-semibold"> Identificación </label>
                     <input formControlName="identificacion" [placeholder]="propietarioForm.value.identificacion_tipo === 'DNI' ? 'Ej. 34060398' : 'Ej. 24340603989'" type="text" 
                            class="border-b-2 py-2 outline-none text-sm focus:outline-none transform duration-500 focus:border-primaryColor w-full border-gray-300">
                 </div>               
             </div>
-            <div class="flex items-center mt-4">
-                <div class="w-1/2">
+            <div class="lg:flex lg:items-center mt-4">
+                <div class="lg:w-1/2">
                     <label class="font-semibold"> Dirección </label>
                     <input formControlName="direccion" placeholder="Ej. Portugal 1030" type="text" 
                            class="border-b-2 py-2 outline-none text-sm focus:outline-none transform duration-500 focus:border-primaryColor w-full border-gray-300">
                 </div> 
-                <div class="w-1/2 ml-4">
+                <div class="lg:w-1/2 mt-4 lg:mt-0 lg:ml-4">
                     <label class="font-semibold"> Correo electrónico </label>
                     <input formControlName="email" placeholder="Ej. equinocciotechnology@gmail.com" type="text" 
                            class="border-b-2 py-2 outline-none text-sm focus:outline-none transform duration-500 focus:border-primaryColor w-full border-gray-300">
