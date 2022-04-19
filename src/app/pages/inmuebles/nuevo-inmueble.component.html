@@ -1,79 +1,100 @@
-<div class="flex mt-2 p-2">
-    <div class="w-1/2 border">
-        <div class="border flex items-center p-2 bg-gray-800 rounded-t text-white text-xl">
-            <app-boton-regresar routerLink="/dashboard/inmuebles"></app-boton-regresar>
-            <h1 class="ml-2"> Datos de inmueble </h1>
-        </div>
-        <form class="p-3 pb-4">
-            <div class="w-full text-sm">
-                <p class="font-semibold"> Propietario del inmueble </p>
-                <select class="mt-1 py-1 w-full transform duration-500 focus:border-primaryColor outline-none bg-white focus:outline-none border-b-2">
-                    <option value="casa"> Moreno Lucas Omar - DNI 34060398 </option>
-                </select>
+<div class="p-2">
+    <div class="lg:flex">
+        <div class="border shadow w-full lg:w-1/2">
+            <div class="flex items-center p-2 border-gray-800 bg-gray-800 rounded-t text-white text-xl">
+                <app-boton-regresar routerLink="/dashboard/inmuebles"></app-boton-regresar>
+                <h1 class="ml-2"> Datos del inmueble </h1>
             </div>
-            <div class="flex mt-4">
-                <div class="w-1/2 text-sm">
-                    <p class="font-semibold"> Tipo de inmueble </p>
+            <form class="p-3 pb-4">
+                <div class="w-full text-sm">
+                    <p class="font-semibold"> Propietario del inmueble </p>
                     <select class="mt-1 py-1 w-full transform duration-500 focus:border-primaryColor outline-none bg-white focus:outline-none border-b-2">
-                        <option value="casa"> Casa </option>
-                        <option value="departamento"> Departamento </option>
-                        <option value="local_comercial"> Local comercial </option>
-                        <option value="monoambiente"> Monoambiente </option>
-                        <option value="oficina"> Oficina </option>
-                        <option value="terreno_lote"> Terreno/Lote </option>
-                        <option value="campo"> Campo </option>
+                        <option *ngFor="let propietario of propietarios" [value]="propietarios._id"> {{ propietario.descripcion }} <span *ngIf="propietario.identificacion !== ''"> - {{ propietario.identificacion_tipo }} {{ propietario.identificacion }} </span> </option>
                     </select>
                 </div>
-                <div class="w-1/2 ml-4 text-sm">
-                    <p class="font-semibold"> Alquiler - Venta </p>
+                <div class="flex mt-4">
+                    <div class="w-1/2 text-sm">
+                        <p class="font-semibold"> Tipo de inmueble </p>
+                        <select class="mt-1 py-1 w-full transform duration-500 focus:border-primaryColor outline-none bg-white focus:outline-none border-b-2">
+                            <option value="casa"> Casa </option>
+                            <option value="departamento"> Departamento </option>
+                            <option value="local_comercial"> Local comercial </option>
+                            <option value="monoambiente"> Monoambiente </option>
+                            <option value="oficina"> Oficina </option>
+                            <option value="terreno_lote"> Terreno/Lote </option>
+                            <option value="campo"> Campo </option>
+                        </select>
+                    </div>
+                    <div class="w-1/2 ml-4 text-sm">
+                        <p class="font-semibold"> Alquiler - Venta </p>
+                        <select class="mt-1 py-1 w-full transform duration-500 focus:border-primaryColor outline-none bg-white focus:outline-none border-b-2">
+                            <option value="alquiler"> Alquiler </option>
+                            <option value="venta"> Venta </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="flex mt-2 text-sm">
+                    <div class="w-1/2">
+                        <p class="font-semibold mt-1"> Dirección publica </p>
+                        <input type="text" placeholder="Ej. Pringles 539" class="py-1 text-sm w-full mt-2 tranform duration-500 focus:border-primaryColor outline-none bg-white focus:outline-none border-b-2">
+                    </div>           
+                    <div class="w-1/2 ml-4">
+                        <p class="font-semibold mt-2"> Provincia </p>
+                        <select class="mt-1 py-1 w-full transform duration-500 capitalize focus:border-primaryColor outline-none bg-white focus:outline-none border-b-2">
+                            <option *ngFor="let provincia of provincias" [value]='provincia._id'> {{ provincia.descripcion.toLowerCase() }} </option>
+                        </select>  
+                    </div>
+                </div>
+                <div class="flex mt-2 text-sm">
+                    <div class="w-full">
+                        <p class="font-semibold mt-1"> Dirección privada </p>
+                        <input type="text" placeholder="Ej. Sobre calle pringles" class="py-1 w-full mt-2 tranform duration-500 focus:border-primaryColor outline-none bg-white focus:outline-none border-b-2">
+                    </div>
+                </div>
+                <div class="flex mt-2 text-sm">
+                    <div class="w-full">
+                        <p class="font-semibold mt-1"> Descripción corta </p>
+                        <input type="text" placeholder="Ej. Vivienda en muy buen estado, ubicación centrica" class="text-sm py-1 w-full mt-2 tranform duration-500 focus:border-primaryColor outline-none bg-white focus:outline-none border-b-2">
+                    </div>
+                </div>
+                <div class="flex mt-2 text-sm">
+                    <div class="w-full">
+                        <p class="font-semibold mt-1"> Descripción completa </p>
+                        <textarea placeholder="Detallamos las caracteristicas del inmubele" rows="5" class="border-2 transform duration-500 outline-none focus:border-primaryColor text-sm p-2 mt-2 w-full focus:outline-none border-gray-300"></textarea>
+                    </div>
+                </div>
+                <div class="flex mt-2 text-sm">
+                    <div class="w-1/2">
+                        <p class="font-semibold"> Precio </p>
+                        <input type="number" placeholder="Ej. 10000" class="py-1 w-full mt-2 tranform duration-500 focus:border-primaryColor outline-none bg-white focus:outline-none border-b-2">
+                    </div>
+                    <div class="w-1/2 ml-4">
+                        <p class="font-semibold"> Moneda </p>
+                        <select class="py-1 w-full mt-2 tranform duration-500 focus:border-primaryColor outline-none bg-white focus:outline-none border-b-2">
+                            <option value="pesos"> Pesos </option>
+                            <option value="dolares"> Dolares </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="w-1/2 text-sm mt-4">
+                    <p class="font-semibold"> ¿Mostrar precio en la web? </p>
                     <select class="mt-1 py-1 w-full transform duration-500 focus:border-primaryColor outline-none bg-white focus:outline-none border-b-2">
-                        <option value="alquiler"> Alquiler </option>
-                        <option value="venta"> Venta </option>
-                    </select>
+                        <option value=true> Si </option>
+                        <option value=false> No </option>
+                    </select>            
                 </div>
+                <button class="border border-gray-300 hover:text-secondaryColor text-gray-800 font-semibold bg-gray-100 p-2 rounded w-full mt-4"> Crear inmueble </button>
+            </form>
+        </div>
+        <div class="w-full border border-gray-300 shadow h-full lg:ml-2 lg:w-1/2 mt-2 lg:mt-0">
+            <div class="bg-gray-800 border border-gray-800 rounded-t p-3 text-white">
+                <h1 class="text-xl"> Vista previa </h1>
             </div>
-            <div class="flex mt-2 text-sm">
-                <div class="w-full">
-                    <p class="font-semibold mt-1"> Dirección pública </p>
-                    <input type="text" placeholder="Ej. Sobre calle pringles" class="py-1 w-full mt-2 tranform duration-500 focus:border-primaryColor outline-none bg-white focus:outline-none border-b-2">
-                </div>
+            <div class="p-2">
+                <p> Contenido </p>
             </div>
-            <div class="flex mt-2 text-sm">
-                <div class="w-full">
-                    <p class="font-semibold mt-1"> Dirección privada </p>
-                    <input type="text" placeholder="Ej. Pringles 539" class="py-1 text-sm w-full mt-2 tranform duration-500 focus:border-primaryColor outline-none bg-white focus:outline-none border-b-2">
-                </div>
-            </div>
-            <div class="flex mt-2 text-sm">
-                <div class="w-full">
-                    <p class="font-semibold mt-1"> Descripción corta </p>
-                    <input type="text" placeholder="Ej. Vivienda en muy buen estado, ubicación centrica" class="text-sm py-1 w-full mt-2 tranform duration-500 focus:border-primaryColor outline-none bg-white focus:outline-none border-b-2">
-                </div>
-            </div>
-            <div class="flex mt-2 text-sm">
-                <div class="w-full">
-                    <p class="font-semibold mt-1"> Descripción completa </p>
-                    <textarea placeholder="Detallamos las caracteristicas del inmubele" cols="30" rows="10" class="border text-sm p-2 mt-2 w-full focus:outline-none border-gray-300"></textarea>
-                </div>
-            </div>
-            <div class="flex mt-2 text-sm">
-                <div class="w-1/2">
-                    <p class="font-semibold"> Precio </p>
-                    <input type="number" placeholder="Ej. 10000" class="py-1 w-full mt-2 tranform duration-500 focus:border-primaryColor outline-none bg-white focus:outline-none border-b-2">
-                </div>
-                <div class="w-1/2 ml-4">
-                    <p class="font-semibold"> Moneda </p>
-                    <select class="py-1 w-full mt-2 tranform duration-500 focus:border-primaryColor outline-none bg-white focus:outline-none border-b-2">
-                        <option value="pesos"> Pesos </option>
-                        <option value="dolares"> Dolares </option>
-                    </select>
-                </div>
-            </div>
-        </form>
-    </div>
-    <div class="w-1/2 ml-2">
-        <div class="border py-2 px-4 bg-gray-800 rounded-t text-white text-xl">
-            <h1> Fotos del inmueble </h1>
         </div>
     </div>
+  
 </div>
+

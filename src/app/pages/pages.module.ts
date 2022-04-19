@@ -20,6 +20,7 @@ import { EditarInmuebleComponent } from './inmuebles/editar/editar-inmueble.comp
 import { PropietariosComponent } from './propietarios/propietarios.component';
 import { InmobiliariaComponent } from './inmobiliaria/inmobiliaria.component';
 import { ConsultasComponent } from './consultas/consultas.component';
+import { ProvinciasComponent } from './provincias/provincias.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { ConsultasComponent } from './consultas/consultas.component';
     PropietariosComponent,
     InmobiliariaComponent,
     ConsultasComponent,
+    ProvinciasComponent,
   ],
   imports: [
     CommonModule,

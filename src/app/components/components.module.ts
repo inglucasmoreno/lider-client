@@ -35,7 +35,7 @@ import { ModalSmallComponent } from './modal-small/modal-small.component';
     PastillaPendienteCompletadoComponent,
     ModalComponent,
     ModalMediumComponent,
-    ModalSmallComponent,
+    ModalSmallComponent
   ],
   imports: [
     CommonModule,
@@ -56,7 +56,7 @@ import { ModalSmallComponent } from './modal-small/modal-small.component';
     PastillaPendienteCompletadoComponent,
     ModalComponent,
     ModalMediumComponent,
-    ModalSmallComponent
+    ModalSmallComponent,
   ]
 })
 export class ComponentsModule { }

@@ -19,6 +19,7 @@ import { EditarInmuebleComponent } from './inmuebles/editar/editar-inmueble.comp
 import { PropietariosComponent } from './propietarios/propietarios.component';
 import { InmobiliariaComponent } from './inmobiliaria/inmobiliaria.component';
 import { ConsultasComponent } from './consultas/consultas.component';
+import { ProvinciasComponent } from './provincias/provincias.component';
 
 const routes: Routes = [
     {
@@ -41,6 +42,9 @@ const routes: Routes = [
 
             // Propietarios
             { path: 'propietarios', data: { permisos: 'PROPIETARIOS_NAV' }, canActivate: [PermisosGuard], component: PropietariosComponent },
+
+            // Provincias
+            { path: 'provincias', data: { permisos: 'PROVINCIAS_NAV' }, canActivate: [PermisosGuard], component: ProvinciasComponent },
 
             // Inmuebles
             { path: 'inmuebles', data: { permisos: 'INMUEBLES_NAV' }, canActivate: [PermisosGuard], component: InmueblesComponent },

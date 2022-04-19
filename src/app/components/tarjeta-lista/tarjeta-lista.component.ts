@@ -12,7 +12,7 @@ export class TarjetaListaComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void { 
-    gsap.from('.gsap-contenido', { y:100, opacity: 0, duration: .2 }); 
+    gsap.from('.gsap-contenido', { y:100, opacity: 0, duration: .2 });
   }
 
 }

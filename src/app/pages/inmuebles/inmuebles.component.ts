@@ -4,7 +4,6 @@ import { AlertService } from 'src/app/services/alert.service';
 import { DataService } from 'src/app/services/data.service';
 import { InmueblesService } from 'src/app/services/inmuebles.service';
 
-
 @Component({
   selector: 'app-inmuebles',
   templateUrl: './inmuebles.component.html',
@@ -47,7 +46,6 @@ export class InmueblesComponent implements OnInit {
     this.alertService.loading();
     this.listarInmuebles();
   }
-
   listarInmuebles(): void {
     this.inmueblesService.listarInmuebles(this.ordenar.direccion, this.ordenar.columna).subscribe({
 
