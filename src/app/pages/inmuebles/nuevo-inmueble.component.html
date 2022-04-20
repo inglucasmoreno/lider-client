@@ -5,42 +5,44 @@
                 <app-boton-regresar routerLink="/dashboard/inmuebles"></app-boton-regresar>
                 <h1 class="ml-2"> Datos del inmueble </h1>
             </div>
-            <form class="p-3 pb-4">
+            <form [formGroup]="inmuebleForm" class="p-3 pb-4">
                 <div class="w-full text-sm">
                     <p class="font-semibold"> Propietario del inmueble </p>
-                    <select class="mt-1 py-1 w-full transform duration-500 focus:border-primaryColor outline-none bg-white focus:outline-none border-b-2">
+                    <select formControlName="propietario" class="mt-1 py-1 w-full transform duration-500 focus:border-primaryColor outline-none bg-white focus:outline-none border-b-2">
+                        <option value=""> Seleccionar un propietario </option>
                         <option *ngFor="let propietario of propietarios" [value]="propietarios._id"> {{ propietario.descripcion }} <span *ngIf="propietario.identificacion !== ''"> - {{ propietario.identificacion_tipo }} {{ propietario.identificacion }} </span> </option>
                     </select>
                 </div>
                 <div class="flex mt-4">
                     <div class="w-1/2 text-sm">
                         <p class="font-semibold"> Tipo de inmueble </p>
-                        <select class="mt-1 py-1 w-full transform duration-500 focus:border-primaryColor outline-none bg-white focus:outline-none border-b-2">
-                            <option value="casa"> Casa </option>
-                            <option value="departamento"> Departamento </option>
-                            <option value="local_comercial"> Local comercial </option>
-                            <option value="monoambiente"> Monoambiente </option>
-                            <option value="oficina"> Oficina </option>
-                            <option value="terreno_lote"> Terreno/Lote </option>
-                            <option value="campo"> Campo </option>
+                        <select formControlName="tipo" class="mt-1 py-1 w-full transform duration-500 focus:border-primaryColor outline-none bg-white focus:outline-none border-b-2">
+                            <option value="Casa"> Casa </option>
+                            <option value="Departamento"> Departamento </option>
+                            <option value="Local comercial"> Local comercial </option>
+                            <option value="Monoambiente"> Monoambiente </option>
+                            <option value="Oficina"> Oficina </option>
+                            <option value="Terreno/Lote"> Terreno/Lote </option>
+                            <option value="Campo"> Campo </option>
                         </select>
                     </div>
                     <div class="w-1/2 ml-4 text-sm">
                         <p class="font-semibold"> Alquiler - Venta </p>
-                        <select class="mt-1 py-1 w-full transform duration-500 focus:border-primaryColor outline-none bg-white focus:outline-none border-b-2">
-                            <option value="alquiler"> Alquiler </option>
-                            <option value="venta"> Venta </option>
+                        <select formControlName="alquiler_venta" class="mt-1 py-1 w-full transform duration-500 focus:border-primaryColor outline-none bg-white focus:outline-none border-b-2">
+                            <option value="Alquiler"> Alquiler </option>
+                            <option value="Venta"> Venta </option>
                         </select>
                     </div>
                 </div>
                 <div class="flex mt-2 text-sm">
                     <div class="w-1/2">
                         <p class="font-semibold mt-1"> Dirección publica </p>
-                        <input type="text" placeholder="Ej. Pringles 539" class="py-1 text-sm w-full mt-2 tranform duration-500 focus:border-primaryColor outline-none bg-white focus:outline-none border-b-2">
+                        <input formControlName="ubicacion_publica" type="text" placeholder="Ej. Pringles 539" class="py-1 text-sm w-full mt-2 tranform duration-500 focus:border-primaryColor outline-none bg-white focus:outline-none border-b-2">
                     </div>           
                     <div class="w-1/2 ml-4">
                         <p class="font-semibold mt-2"> Provincia </p>
-                        <select class="mt-1 py-1 w-full transform duration-500 capitalize focus:border-primaryColor outline-none bg-white focus:outline-none border-b-2">
+                        <select formControlName="provincia" class="mt-1 py-1 w-full transform duration-500 capitalize focus:border-primaryColor outline-none bg-white focus:outline-none border-b-2">
+                            <option value=""> Seleccionar provincia </option>
                             <option *ngFor="let provincia of provincias" [value]='provincia._id'> {{ provincia.descripcion.toLowerCase() }} </option>
                         </select>  
                     </div>
@@ -48,37 +50,37 @@
                 <div class="flex mt-2 text-sm">
                     <div class="w-full">
                         <p class="font-semibold mt-1"> Dirección privada </p>
-                        <input type="text" placeholder="Ej. Sobre calle pringles" class="py-1 w-full mt-2 tranform duration-500 focus:border-primaryColor outline-none bg-white focus:outline-none border-b-2">
+                        <input formControlName="ubicacion_privada" type="text" placeholder="Ej. Sobre calle pringles" class="py-1 w-full mt-2 tranform duration-500 focus:border-primaryColor outline-none bg-white focus:outline-none border-b-2">
                     </div>
                 </div>
                 <div class="flex mt-2 text-sm">
                     <div class="w-full">
                         <p class="font-semibold mt-1"> Descripción corta </p>
-                        <input type="text" placeholder="Ej. Vivienda en muy buen estado, ubicación centrica" class="text-sm py-1 w-full mt-2 tranform duration-500 focus:border-primaryColor outline-none bg-white focus:outline-none border-b-2">
+                        <input formControlName="descripcion_corta" type="text" placeholder="Ej. Vivienda en muy buen estado, ubicación centrica" class="text-sm py-1 w-full mt-2 tranform duration-500 focus:border-primaryColor outline-none bg-white focus:outline-none border-b-2">
                     </div>
                 </div>
                 <div class="flex mt-2 text-sm">
                     <div class="w-full">
                         <p class="font-semibold mt-1"> Descripción completa </p>
-                        <textarea placeholder="Detallamos las caracteristicas del inmubele" rows="5" class="border-2 transform duration-500 outline-none focus:border-primaryColor text-sm p-2 mt-2 w-full focus:outline-none border-gray-300"></textarea>
+                        <textarea formControlName="descripcion_completa" placeholder="Detallamos las caracteristicas del inmubele" rows="5" class="border-2 transform duration-500 outline-none focus:border-primaryColor text-sm p-2 mt-2 w-full focus:outline-none border-gray-300"></textarea>
                     </div>
                 </div>
                 <div class="flex mt-2 text-sm">
                     <div class="w-1/2">
                         <p class="font-semibold"> Precio </p>
-                        <input type="number" placeholder="Ej. 10000" class="py-1 w-full mt-2 tranform duration-500 focus:border-primaryColor outline-none bg-white focus:outline-none border-b-2">
+                        <input formControlName="precio_valor" type="number" placeholder="Ej. 10000" class="py-1 w-full mt-2 tranform duration-500 focus:border-primaryColor outline-none bg-white focus:outline-none border-b-2">
                     </div>
                     <div class="w-1/2 ml-4">
                         <p class="font-semibold"> Moneda </p>
-                        <select class="py-1 w-full mt-2 tranform duration-500 focus:border-primaryColor outline-none bg-white focus:outline-none border-b-2">
-                            <option value="pesos"> Pesos </option>
-                            <option value="dolares"> Dolares </option>
+                        <select formControlName="precio_dolar" class="py-1 w-full mt-2 tranform duration-500 focus:border-primaryColor outline-none bg-white focus:outline-none border-b-2">
+                            <option value="Pesos"> Pesos </option>
+                            <option value="Dolares"> Dolares </option>
                         </select>
                     </div>
                 </div>
                 <div class="w-1/2 text-sm mt-4">
                     <p class="font-semibold"> ¿Mostrar precio en la web? </p>
-                    <select class="mt-1 py-1 w-full transform duration-500 focus:border-primaryColor outline-none bg-white focus:outline-none border-b-2">
+                    <select formControlName="precio_mostrar" class="mt-1 py-1 w-full transform duration-500 focus:border-primaryColor outline-none bg-white focus:outline-none border-b-2">
                         <option value=true> Si </option>
                         <option value=false> No </option>
                     </select>            
@@ -91,7 +93,38 @@
                 <h1 class="text-xl"> Vista previa </h1>
             </div>
             <div class="p-2">
-                <p> Contenido </p>
+                <div class="border border-gray-300 rounded-t shadow">
+                    <div class="relative">
+                        <img class="rounded-t object-cover w-full h-60" src="assets/img/inmuebles/sin-imagen.png" alt="Sin-imagen.png">
+                        <p  [ngClass]="{'bg-green-700' : inmuebleForm.value.alquiler_venta === 'Venta', 'bg-orange-700' : inmuebleForm.value.alquiler_venta === 'Alquiler'}"
+                            class="absolute top-0 right-0 py-2 px-4 text-white opacity-80"> 
+                            {{ inmuebleForm.value.alquiler_venta }}
+                        </p>
+                        <p class="absolute bottom-0 left-0 bg-gray-900 p-2 text-white opacity-80">
+                            CA0001
+                        </p>
+                    </div>       
+                    <div>
+                        <div class="p-2">
+                            <p> {{ inmuebleForm.value.provincia }} </p>
+                            <div class="mt-5">
+                                <div>
+                                    <p class="text-sm"> {{ inmuebleForm.value.tipo }} </p>
+                                    <p class="text-sm mt-1"> {{ inmuebleForm.value.ubicacion_publica}} </p>
+                                </div>
+                            </div>
+                            <div class="mt-2 text-right">
+                                <p *ngIf="inmuebleForm.value.precio_mostrar === 'false'" class="text-md text-secondaryColor text-lg"> Consultar precio </p>
+                                <p *ngIf="inmuebleForm.value.precio_mostrar === 'true'" class="text-md text-secondaryColor text-lg"> {{ inmuebleForm.value.precio_dolar === 'Dolares' ? 'US$' : '$' }}{{ inmuebleForm.value.precio_valor | moneda }} </p>
+                            </div>
+                        </div>
+                        <div class="bg-gray-200 w-full h-10"></div>
+                        <div class="flex items-center justify-center mt-2 mb-2 w-full p-2">
+                            <button class="p-2 border rounded w-1/2 bg-secondaryColor text-white"> Contactar asesor </button>
+                            <button class="p-2 border rounded ml-2 w-1/2 bg-secondaryColor text-white"> Detalles </button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

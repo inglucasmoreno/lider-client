@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
 import { AlertService } from 'src/app/services/alert.service';
 import { DataService } from 'src/app/services/data.service';
 import { InmueblesService } from 'src/app/services/inmuebles.service';
@@ -16,7 +17,23 @@ export class NuevoInmuebleComponent implements OnInit {
   public propietarios: any;
   public provincias: any;
 
+  // Modelo reactivo - Propietario
+  public inmuebleForm = this.fb.group({
+    propietario: ['', Validators.required],
+    tipo: ['Casa', Validators.required],
+    alquiler_venta: ['Alquiler', Validators.required],
+    ubicacion_publica: ['', Validators.required],
+    ubicacion_privada: ['', Validators.required],
+    provincia: ['', Validators.required],
+    descripcion_corta: ['', Validators.required],
+    descripcion_completa: ['', Validators.required],
+    precio_valor: [null, Validators.required],
+    precio_dolar: ['Pesos', Validators.required],
+    precio_mostrar: ['false', Validators.required],
+  });
+
   constructor(private dataService: DataService,
+              private fb: FormBuilder,
               private alertService: AlertService,
               private propietariosService: PropietariosService,
               private provinciasService: ProvinciasService,
