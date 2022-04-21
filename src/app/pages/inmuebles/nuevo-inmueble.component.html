@@ -1,4 +1,4 @@
-<div class="p-2">
+<div class="p-2 gsap-contenido">
     <div class="lg:flex">
         <div class="border shadow w-full lg:w-1/2">
             <div class="flex items-center p-2 border-gray-800 bg-gray-800 rounded-t text-white text-xl">
@@ -36,15 +36,24 @@
                 </div>
                 <div class="flex mt-2 text-sm">
                     <div class="w-1/2">
-                        <p class="font-semibold mt-1"> Dirección publica </p>
-                        <input formControlName="ubicacion_publica" type="text" placeholder="Ej. Pringles 539" class="py-1 text-sm w-full mt-2 tranform duration-500 focus:border-primaryColor outline-none bg-white focus:outline-none border-b-2">
-                    </div>           
-                    <div class="w-1/2 ml-4">
                         <p class="font-semibold mt-2"> Provincia </p>
-                        <select formControlName="provincia" class="mt-1 py-1 w-full transform duration-500 capitalize focus:border-primaryColor outline-none bg-white focus:outline-none border-b-2">
+                        <select formControlName="provincia" (change)="seleccionarProvincia()" class="mt-1 py-1 w-full transform duration-500 capitalize focus:border-primaryColor outline-none bg-white focus:outline-none border-b-2">
                             <option value=""> Seleccionar provincia </option>
                             <option *ngFor="let provincia of provincias" [value]='provincia._id'> {{ provincia.descripcion.toLowerCase() }} </option>
                         </select>  
+                    </div>
+                    <div class="w-1/2 ml-4">
+                        <p class="font-semibold mt-2"> Localidad </p>
+                        <select formControlName="localidad" class="mt-1 py-1 w-full transform duration-500 capitalize focus:border-primaryColor outline-none bg-white focus:outline-none border-b-2">
+                            <option value=""> Capital </option>
+                            <option *ngFor="let localidad of localidades" [value]='localidad._id'> {{ localidad.descripcion.toLowerCase() }} </option>
+                        </select>  
+                    </div>           
+                </div>
+                <div class="flex mt-2 text-sm">
+                    <div class="w-full">
+                        <p class="font-semibold mt-1"> Dirección publica </p>
+                        <input formControlName="ubicacion_publica" type="text" placeholder="Ej. Sobre calle pringles" class="py-1 w-full mt-2 tranform duration-500 focus:border-primaryColor outline-none bg-white focus:outline-none border-b-2">
                     </div>
                 </div>
                 <div class="flex mt-2 text-sm">
@@ -106,10 +115,10 @@
                     </div>       
                     <div>
                         <div class="p-2">
-                            <p> {{ inmuebleForm.value.provincia }} </p>
+                            <p> {{ inmuebleForm.value.tipo }} </p>
                             <div class="mt-5">
                                 <div>
-                                    <p class="text-sm"> {{ inmuebleForm.value.tipo }} </p>
+                                    <p class="capitalize"> {{ provinciaSeleccionada?.descripcion.toLowerCase() }} </p>
                                     <p class="text-sm mt-1"> {{ inmuebleForm.value.ubicacion_publica}} </p>
                                 </div>
                             </div>
