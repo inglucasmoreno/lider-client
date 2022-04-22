@@ -7,6 +7,7 @@ import { LocalidadesService } from 'src/app/services/localidades.service';
 import { PropietariosService } from 'src/app/services/propietarios.service';
 import { ProvinciasService } from 'src/app/services/provincias.service';
 import gsap from 'gsap';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-nuevo-inmueble',
@@ -16,10 +17,17 @@ import gsap from 'gsap';
 })
 export class NuevoInmuebleComponent implements OnInit {
 
+  public showModal = false;
   public provinciaSeleccionada: any;
+  public localidadSeleccionada: any;
   public propietarios: any;
   public provincias: any;
   public localidades: any[];
+
+   // Subida de archivo
+   public file;
+   public previsualizacion: string;
+   public imagenParaSubir: any;
 
   // Modelo reactivo - Propietario
   public inmuebleForm = this.fb.group({
@@ -43,12 +51,18 @@ export class NuevoInmuebleComponent implements OnInit {
               private propietariosService: PropietariosService,
               private provinciasService: ProvinciasService,
               private localidadesService: LocalidadesService,
+              private sanitizer: DomSanitizer,
               private inmueblesService: InmueblesService) { }
 
   ngOnInit(): void {
     this.dataService.ubicacionActual = "Dashboard - Inmuebles - Creando";
     gsap.from('.gsap-contenido', { y:100, opacity: 0, duration: .2 });
     this.listarPropietarios();
+  }
+
+  // Abrir modal
+  abrirModal(): void {
+    this.showModal = true;
   }
 
   // Listado de propietarios
@@ -92,6 +106,8 @@ export class NuevoInmuebleComponent implements OnInit {
     });
   }
 
+  // -- Seleccion de provincia --
+
   // Seleccionar provincia inicial
   provinciaInicial(): void {
     const provincia_inicial = this.provincias.find(provincia => provincia.descripcion === 'SAN LUIS');
@@ -107,10 +123,67 @@ export class NuevoInmuebleComponent implements OnInit {
       this.alertService.loading();
       this.listarLocalidades(this.provinciaSeleccionada._id);
     }else{
-      this.inmuebleForm.patchValue({ localidad: '' });
+      this.inmuebleForm.patchValue({ 
+        localidad: '' 
+      });
       this.localidades = [];  
     }
   }
+
+  // -- Seleccion de localidad --
+  
+  // Nombre de localidad
+  seleccionarLocalidad(): void {
+    if(this.inmuebleForm.value.localidad.trim() !== '')
+      this.localidadSeleccionada = this.localidades.find(localidad => localidad._id === this.inmuebleForm.value.localidad);
+    
+  }
+
+  // -- Imagen --
+
+  // Se captura la imagen a subir
+  capturarImagen(event: any): void {
+    console.log('capturando');
+    if(event.target.files[0]){ // Se captura si hay imagen seleccionada
+      this.imagenParaSubir = event.target.files[0];
+      
+      const formato = this.imagenParaSubir.type.split('/')[1];
+      const condicion = formato !== 'png' && formato !== 'jpg' && formato !== 'jpeg' && formato !== 'gif';
+  
+      if(condicion){
+        this.previsualizacion = '';
+        this.file = '';
+        return this.alertService.errorApi('El archivo debe ser una imagen');
+      }
+  
+      this.extraerBase64(this.imagenParaSubir).then( (imagen: any) => {
+        this.previsualizacion = imagen.base;
+      });
+    }
+  }
+
+  // Extraer base 64
+  extraerBase64 = async ($event: any) => new Promise((resolve, reject) => {
+    try {
+      const unsafeImg = window.URL.createObjectURL($event);
+      const image = this.sanitizer.bypassSecurityTrustUrl(unsafeImg);
+      const reader = new FileReader();
+      reader.readAsDataURL($event);
+      reader.onload = () => {
+        resolve({
+          base: reader.result
+        });
+      };
+      reader.onerror = error => {
+        resolve({
+          base: null
+        });
+      };
+
+    } catch (e) {
+      return null;
+    }
+  })
 
 
 }
