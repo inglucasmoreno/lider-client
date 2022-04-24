@@ -14,14 +14,16 @@ export class InicializacionComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  // Inicializacion de usuarios
   inicializarUsuarios(): void {
     this.alertService.loading();
-    this.inicializacionService.inicializarUsuarios().subscribe(({message}) => {
-      this.alertService.success(message);
-    },({error})=>{
-      this.alertService.errorApi(error.message);
+    this.inicializacionService.inicializarUsuarios().subscribe({
+      next: () => {
+        this.alertService.success('Inicializacion correcta');
+      },
+      error: ({error}) => {
+        this.alertService.info(error.message);
+      }
     });
   }
-
+  
 }

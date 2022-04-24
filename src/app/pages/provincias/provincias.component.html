@@ -107,7 +107,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let provincia of provincias | filtroPropietarios:filtro.parametro:filtro.activo | paginate: {itemsPerPage: cantidadItems, currentPage: paginaActual}">
+                            <tr *ngFor="let provincia of provincias | filtroProvincias:filtro.parametro:filtro.activo | paginate: {itemsPerPage: cantidadItems, currentPage: paginaActual}">
                                 <td class="px-5 py-2 border-b border-gray-200 text-sm">
                                     <p class="text-gray-900 whitespace-no-wrap capitalize">
                                         {{ provincia.descripcion.toLowerCase() }}

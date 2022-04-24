@@ -50,6 +50,7 @@ export class InmueblesComponent implements OnInit {
     this.inmueblesService.listarInmuebles(this.ordenar.direccion, this.ordenar.columna).subscribe({
 
       next: ({ inmuebles }) => {
+        console.log(inmuebles);
         this.inmuebles = inmuebles;
         this.alertService.close();
       },

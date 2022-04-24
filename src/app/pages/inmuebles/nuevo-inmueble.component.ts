@@ -8,6 +8,7 @@ import { PropietariosService } from 'src/app/services/propietarios.service';
 import { ProvinciasService } from 'src/app/services/provincias.service';
 import gsap from 'gsap';
 import { DomSanitizer } from '@angular/platform-browser';
+import { CodigosService } from 'src/app/services/codigos.service';
 
 @Component({
   selector: 'app-nuevo-inmueble',
@@ -18,11 +19,20 @@ import { DomSanitizer } from '@angular/platform-browser';
 export class NuevoInmuebleComponent implements OnInit {
 
   public showModal = false;
-  public provinciaSeleccionada: any;
-  public localidadSeleccionada: any;
+
+  // Codigo
+  public codigo: string;
+
+  // Propietario
   public propietarios: any;
+  
+  // Provincia
   public provincias: any;
+  public provinciaSeleccionada: any;
+  
+  // Localidad
   public localidades: any[];
+  public localidadSeleccionada: any;
 
    // Subida de archivo
    public file;
@@ -41,13 +51,14 @@ export class NuevoInmuebleComponent implements OnInit {
     descripcion_corta: ['', Validators.required],
     descripcion_completa: ['', Validators.required],
     precio_valor: [null, Validators.required],
-    precio_dolar: ['Pesos', Validators.required],
+    precio_moneda: ['Pesos', Validators.required],
     precio_mostrar: ['false', Validators.required],
   });
 
   constructor(private dataService: DataService,
               private fb: FormBuilder,
               private alertService: AlertService,
+              private codigosService: CodigosService,
               private propietariosService: PropietariosService,
               private provinciasService: ProvinciasService,
               private localidadesService: LocalidadesService,
@@ -65,16 +76,76 @@ export class NuevoInmuebleComponent implements OnInit {
     this.showModal = true;
   }
 
+  // Nuevo inmueble
+  nuevoInmueble(): void {
+
+    const { propietario, 
+            ubicacion_publica, 
+            ubicacion_privada,
+            provincia,
+            localidad,
+            descripcion_corta,
+            descripcion_completa,
+            precio_valor,                     
+          } = this.inmuebleForm.value;
+
+    // Verificacion de datos
+    if(!this.inmuebleForm.valid ||
+        propietario.trim() === '' ||
+        ubicacion_publica.trim() === '' ||
+        ubicacion_privada.trim() === '' ||
+        provincia.trim() === '' ||
+        localidad.trim() === '' ||
+        descripcion_corta.trim() === '' ||
+        descripcion_completa.trim() === '' ||
+        precio_valor === null ||
+        precio_valor <= 0 
+      ){
+        this.alertService.info('Completar los campos obligatorios');
+        return;
+    }
+
+    this.alertService.loading();
+    this.inmueblesService.nuevoInmueble(this.inmuebleForm.value).subscribe({
+      next: () => {
+        this.reiniciarFormulario();
+        this.alertService.success();
+      },
+      error: ({error}) => {
+        this.alertService.errorApi(error.message);
+      }
+
+    });
+  }
+
+  // Reiniciar formulario
+  reiniciarFormulario(): void {
+    this.inmuebleForm.patchValue({
+      propietario: '',
+      tipo: 'Casa',
+      alquiler_venta: 'Alquiler',
+      ubicacion_publica: '',
+      ubicacion_privada: '',
+      provincia: '',
+      localidad: '',
+      descripcion_corta: '',
+      descripcion_completa: '',
+      precio_valor: null,
+      precio_moneda: 'Pesos',
+      precio_mostrar: 'false',
+    });
+  }
+
   // Listado de propietarios
   listarPropietarios(): void {
     this.alertService.loading();
     this.propietariosService.listarPropietarios(1,'descripcion').subscribe({
       next: ({ propietarios }) => {
-        this.propietarios = propietarios;
+        this.propietarios = propietarios.filter(propietario => (propietario.activo));
         this.listarProvincias();
       },
       error: ({error}) => {
-        this.alertService.errorApi(error.msg);
+        this.alertService.errorApi(error.message);
       }
     });
   }
@@ -87,7 +158,7 @@ export class NuevoInmuebleComponent implements OnInit {
         this.provinciaInicial();
       }, 
       error: ({error}) => {
-        this.alertService.errorApi(error.msg);
+        this.alertService.errorApi(error.message);
       }
     }); 
   }
@@ -98,10 +169,10 @@ export class NuevoInmuebleComponent implements OnInit {
       next: ({localidades}) => {
         this.inmuebleForm.patchValue({ localidad: '' });
         this.localidades = localidades.filter(localidad => localidad.activo);
-        this.alertService.close();
+        this.seleccionarCodigo();
       },
       error: ({error}) => {
-        this.alertService.errorApi(error.msg);  
+        this.alertService.errorApi(error.message);  
       }
     });
   }
@@ -110,10 +181,9 @@ export class NuevoInmuebleComponent implements OnInit {
 
   // Seleccionar provincia inicial
   provinciaInicial(): void {
-    const provincia_inicial = this.provincias.find(provincia => provincia.descripcion === 'SAN LUIS');
+    const provincia_inicial = this.provincias.find(provincia => (provincia.descripcion === "SAN LUIS"));
     this.inmuebleForm.patchValue({ provincia: provincia_inicial ? provincia_inicial._id : '' });
     provincia_inicial ? this.seleccionarProvincia() : null; 
-    this.alertService.close();
   }
 
   // Nombre de provincia
@@ -136,29 +206,33 @@ export class NuevoInmuebleComponent implements OnInit {
   seleccionarLocalidad(): void {
     if(this.inmuebleForm.value.localidad.trim() !== '')
       this.localidadSeleccionada = this.localidades.find(localidad => localidad._id === this.inmuebleForm.value.localidad);
-    
   }
 
   // -- Imagen --
 
   // Se captura la imagen a subir
   capturarImagen(event: any): void {
-    console.log('capturando');
     if(event.target.files[0]){ // Se captura si hay imagen seleccionada
+      
       this.imagenParaSubir = event.target.files[0];
       
+      // Se verifica que sea una imagen
       const formato = this.imagenParaSubir.type.split('/')[1];
       const condicion = formato !== 'png' && formato !== 'jpg' && formato !== 'jpeg' && formato !== 'gif';
-  
+      
+      // Limpiamos si no se selecciona nada
       if(condicion){
         this.previsualizacion = '';
         this.file = '';
         return this.alertService.errorApi('El archivo debe ser una imagen');
       }
-  
+      
+      // Vista previa - Base64
       this.extraerBase64(this.imagenParaSubir).then( (imagen: any) => {
         this.previsualizacion = imagen.base;
+        this.showModal = false;
       });
+
     }
   }
 
@@ -185,5 +259,25 @@ export class NuevoInmuebleComponent implements OnInit {
     }
   })
 
+  // Eliminar imagen
+  eliminarImagenSeleccionada(): void {
+    this.previsualizacion = '';
+    this.file = '';
+    this.imagenParaSubir = null;
+  }
+
+  // -- Codigos
+  seleccionarCodigo(): void {
+    this.alertService.loading();
+    this.codigosService.getCodigosPorTipo(this.inmuebleForm.value.tipo).subscribe({
+      next: ({ codigo }) => {
+        this.codigo = codigo;
+        this.alertService.close();
+      },
+      error: ({error}) => {
+        this.alertService.errorApi(error.message);
+      }
+    });  
+  }
 
 }

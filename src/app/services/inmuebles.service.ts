@@ -20,7 +20,7 @@ export class InmueblesService {
       }
     });
   } 
-  
+
   // Listar inmuebles
   listarInmuebles( direccion : number = 1, columna: string = 'codigo' ): Observable<any>{
     return this.http.get(`${base_url}/inmuebles`, {
@@ -36,7 +36,7 @@ export class InmueblesService {
 
   // Nuevo inmueble
   nuevoInmueble(data: any): Observable<any>{
-    return this.http.post(`${base_url}/inmueble`, data, {
+    return this.http.post(`${base_url}/inmuebles`, data, {
       headers: {
         'Authorization': localStorage.getItem('token')
       }
@@ -45,7 +45,7 @@ export class InmueblesService {
 
   // Actualizar inmueble
   actualizarInmueble(id: string, data: any): Observable<any>{
-    return this.http.put(`${base_url}/inmueble/${id}`, data, {
+    return this.http.put(`${base_url}/inmuebles/${id}`, data, {
       headers: {
         'Authorization': localStorage.getItem('token')
       }  

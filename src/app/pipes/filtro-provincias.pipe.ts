@@ -1,9 +1,9 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'filtroInmuebles'
+  name: 'filtroProvincias'
 })
-export class FiltroInmueblesPipe implements PipeTransform {
+export class FiltroProvinciasPipe implements PipeTransform {
 
   transform(valores: any[], parametro: string, activo: string): any {
     
@@ -30,18 +30,11 @@ export class FiltroInmueblesPipe implements PipeTransform {
     
     if(parametro.length !== 0){
       return filtrados.filter( valor => { 
-        return valor.codigo.toLocaleLowerCase().includes(parametro) ||
-               valor.propietario.descripcion.toLocaleLowerCase().includes(parametro) ||
-               valor.alquiler_venta.toLocaleLowerCase().includes(parametro) ||
-               valor.tipo.toLocaleLowerCase().includes(parametro) ||
-               valor.provincia.descripcion.toLocaleLowerCase().includes(parametro) ||
-               valor.localidad.descripcion.toLocaleLowerCase().includes(parametro)
-
+        return valor.descripcion.toLocaleLowerCase().includes(parametro)
       });
     }else{
       return filtrados;
     }
-
   }
 
 }
