@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { DataWebService } from '../../services/data-web.service';
 
 @Component({
   selector: 'app-header',
@@ -8,9 +9,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HeaderComponent implements OnInit {
 
-  constructor() { }
+  public inmobiliaria;
+
+  constructor(public dataWebService: DataWebService) { }
 
   ngOnInit(): void {
+    this.dataWebService.obtenerInmobiliaria();
   }
 
 }

@@ -1,0 +1,150 @@
+<div class="flex p-2 gsap-contenido">
+    <div  *ngIf="inmueble" class="border broder-gray-300 shadow w-full lg:w-1/2">
+        <div class="flex items-center justify-between p-2 bg-gray-800 text-white">
+            <div class="flex items-center">
+                <app-boton-regresar routerLink="/dashboard/inmuebles"></app-boton-regresar>
+                <h1 class="bg-gray-800 text-white rounded-t ml-2 text-lg"> Datos del inmueble </h1>
+            </div>
+            <div>
+                <button title="Editar datos" class="ml-1 rounded bg-gray-100 p-2 mr-1 hover:text-secondaryColor text-gray-800">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <div>
+            <div class="p-2">
+                <label class="font-semibold text-sm"> Propietario del inmueble </label>
+                <p class="capitalize text-sm p-2 border-b-2 border-gray-200 mt-1"> 
+                    {{ inmueble.propietario.descripcion.toLowerCase() }} ({{ inmueble.propietario.identificacion_tipo }} {{ inmueble.propietario.identificacion }}) 
+                </p>
+            </div>    
+        </div>
+        <div class="p-2 flex">
+            <div class="w-1/2">
+                <label class="font-semibold text-sm"> Tipo de inmueble </label>
+                <p class="capitalize text-sm p-2 border-b-2 border-gray-200 mt-1"> 
+                    {{ inmueble.tipo }} 
+                </p>
+            </div>  
+            <div class="w-1/2 ml-4">
+                <label class="font-semibold text-sm"> Alquiler / Venta </label>
+                <p class="capitalize text-sm p-2 border-b-2 border-gray-200 mt-1"> 
+                    {{ inmueble.alquiler_venta }}  
+                </p>
+            </div>    
+        </div>
+        <div class="p-2 flex">
+            <div class="w-1/2">
+                <label class="font-semibold text-sm"> Provincia </label>
+                <p class="capitalize text-sm p-2 border-b-2 border-gray-200 mt-1"> 
+                    {{ inmueble.provincia.descripcion.toLowerCase() }} 
+                </p>
+            </div>  
+            <div class="w-1/2 ml-4">
+                <label class="font-semibold text-sm"> Localidad </label>
+                <p class="capitalize text-sm p-2 border-b-2 border-gray-200 mt-1"> 
+                    {{ inmueble.localidad.descripcion.toLowerCase() }}  
+                </p>
+            </div>    
+        </div>
+        <div class="p-2">
+            <div>
+                <label class="font-semibold text-sm"> Dirección publica </label>
+                <p class="capitalize text-sm p-2 border-b-2 border-gray-200 mt-1"> 
+                    {{ inmueble.ubicacion_publica.toLowerCase() }} 
+                </p>
+            </div>     
+        </div>
+        <div class="p-2">
+            <div>
+                <label class="font-semibold text-sm"> Dirección privada </label>
+                <p class="capitalize text-sm p-2 border-b-2 border-gray-200 mt-1"> 
+                    {{ inmueble.ubicacion_privada.toLowerCase() }} 
+                </p>
+            </div>     
+        </div>
+        <div class="p-2">
+            <div>
+                <label class="font-semibold text-sm"> Descripción corta </label>
+                <p class="capitalize text-sm p-2 border-b-2 border-gray-200 mt-1"> 
+                    {{ inmueble.descripcion_corta }} 
+                </p>
+            </div>     
+        </div>
+        <div class="p-2">
+            <div>
+                <label class="font-semibold text-sm"> Descripción completa </label>
+                <p class="capitalize text-sm p-2 border-b-2 border-gray-200 mt-1"> 
+                    {{ inmueble.descripcion_completa }} 
+                </p>
+            </div>     
+        </div>
+        <div class="p-2 flex">
+            <div class="w-1/2">
+                <label class="font-semibold text-sm"> Precio </label>
+                <p class="capitalize text-sm p-2 border-b-2 border-gray-200 mt-1"> 
+                    {{ inmueble.precio_valor }} 
+                </p>
+            </div>  
+            <div class="w-1/2 ml-4">
+                <label class="font-semibold text-sm"> Moneda </label>
+                <p class="ccapitalize text-sm p-2 border-b-2 border-gray-200 mt-1"> 
+                    {{ inmueble.precio_moneda }}  
+                </p>
+            </div>    
+        </div>
+        <div class="p-2 flex">
+            <div class="w-1/2">
+                <label class="font-semibold text-sm"> Mostrar precio </label>
+                <p class="capitalize text-sm p-2 border-b-2 border-gray-200 mt-1"> 
+                    {{ inmueble.precio_mostrar ? 'Si' : 'No' }} 
+                </p>
+            </div>
+            <div class="w-1/2 ml-4">
+                <p class="capitalize text-sm p-2 mt-1 rounded"> </p>
+            </div>     
+        </div>
+    </div>
+    <div *ngIf="inmueble" class="w-full border border-gray-300 shadow h-full lg:ml-2 lg:w-1/2 mt-2 lg:mt-0">
+        <div class="bg-gray-800 flex items-center justify-between border border-gray-800 rounded-t p-3 text-white">
+            <h1 class="text-xl"> Imagenes del inmueble </h1>
+        </div>
+        <div class="p-2">
+            <div class="border border-gray-300 rounded-t shadow">
+                <div class="relative">
+                    <img class="rounded-t object-cover w-full h-60" src="assets/img/inmuebles/sin-imagen.png" alt="Sin-imagen.png">
+                    <p  [ngClass]="{'bg-green-700' : inmueble.alquiler_venta === 'Venta', 'bg-orange-700' : inmueble.alquiler_venta === 'Alquiler'}"
+                        class="absolute top-0 right-0 py-2 px-4 text-white opacity-80"> 
+                        {{ inmueble.alquiler_venta }}
+                    </p>
+                    <p class="absolute bottom-0 left-0 bg-gray-900 p-2 text-white opacity-80">
+                        {{ inmueble.codigo }}
+                    </p>
+                </div>       
+                <div>
+                    <div class="p-2">
+                        <p class="italic text-gray-600 mt-2" *ngIf="inmueble.descripcion_corta.trim() === ''"> Descripción del inmueble </p>
+                        <p class="mt-2" *ngIf="inmueble.descripcion_corta.trim() !== ''"> {{ inmueble.descripcion_corta }} </p>
+                        <div class="mt-5">
+                            <div>
+                                <p> {{ inmueble.tipo }} </p>
+                                <p class="capitalize"> {{ inmueble.localidad.descripcion.toLowerCase() }} ({{ inmueble.provincia.descripcion.toLowerCase() }}) </p>
+                            </div>
+                        </div>
+                        <div class="mt-2 text-right">
+                            <p *ngIf="!inmueble.precio_mostrar" class="text-md text-secondaryColor text-lg"> Consultar precio </p>
+                            <p *ngIf="inmueble.precio_mostrar" class="text-md text-secondaryColor text-lg"> {{ inmueble.precio_moneda === 'Dolares' ? 'US$' : '$' }}{{ inmueble.precio_valor | moneda }} </p>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="flex items-center justify-center mt-2 mb-2 w-full p-2">
+                        <button class="p-2 border rounded w-1/2 bg-secondaryColor text-white"> Contactar asesor </button>
+                        <button class="p-2 border rounded ml-2 w-1/2 bg-secondaryColor text-white"> Detalles </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

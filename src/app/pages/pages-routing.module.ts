@@ -21,6 +21,7 @@ import { InmobiliariaComponent } from './inmobiliaria/inmobiliaria.component';
 import { ConsultasComponent } from './consultas/consultas.component';
 import { ProvinciasComponent } from './provincias/provincias.component';
 import { LocalidadesComponent } from './provincias/localidades.component';
+import { InmuebleDetallesComponent } from './inmuebles/inmueble-detalles.component';
 
 const routes: Routes = [
     {
@@ -54,6 +55,7 @@ const routes: Routes = [
             { path: 'inmuebles', data: { permisos: 'INMUEBLES_NAV' }, canActivate: [PermisosGuard], component: InmueblesComponent },
             { path: 'inmuebles/nuevo', data: { permisos: 'INMUEBLES_NAV' }, canActivate: [PermisosGuard], component: NuevoInmuebleComponent },
             { path: 'inmuebles/editar/:id', data: { permisos: 'INMUEBLES_NAV' }, canActivate: [PermisosGuard], component: EditarInmuebleComponent },
+            { path: 'inmuebles/detalles/:id', data: { permisos: 'INMUEBLES_NAV' }, canActivate: [PermisosGuard], component: InmuebleDetallesComponent },
     
             // Inmobiliaria
             { path: 'inmobiliaria', data: { permisos: 'INMOBILIARIA_NAV' }, canActivate: [PermisosGuard], component: InmobiliariaComponent },

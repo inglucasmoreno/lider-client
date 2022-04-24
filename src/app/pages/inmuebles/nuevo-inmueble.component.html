@@ -146,8 +146,8 @@
                     </div>       
                     <div>
                         <div class="p-2">
-                            <p class="italic text-gray-600" *ngIf="inmuebleForm.value.descripcion_corta.trim() === ''"> Descripción del inmueble </p>
-                            <p *ngIf="inmuebleForm.value.descripcion_corta.trim() !== ''"> {{ inmuebleForm.value.descripcion_corta }} </p>
+                            <p class="italic text-gray-600 mt-2" *ngIf="inmuebleForm.value.descripcion_corta.trim() === ''"> Descripción del inmueble </p>
+                            <p class="mt-2" *ngIf="inmuebleForm.value.descripcion_corta.trim() !== ''"> {{ inmuebleForm.value.descripcion_corta }} </p>
                             <div class="mt-5">
                                 <div>
                                     <p> {{ inmuebleForm.value.tipo }} </p>
@@ -156,7 +156,7 @@
                             </div>
                             <div class="mt-2 text-right">
                                 <p *ngIf="inmuebleForm.value.precio_mostrar === 'false'" class="text-md text-secondaryColor text-lg"> Consultar precio </p>
-                                <p *ngIf="inmuebleForm.value.precio_mostrar === 'true'" class="text-md text-secondaryColor text-lg"> {{ inmuebleForm.value.precio_dolar === 'Dolares' ? 'US$' : '$' }}{{ inmuebleForm.value.precio_valor | moneda }} </p>
+                                <p *ngIf="inmuebleForm.value.precio_mostrar === 'true'" class="text-md text-secondaryColor text-lg"> {{ inmuebleForm.value.precio_moneda === 'Dolares' ? 'US$' : '$' }}{{ inmuebleForm.value.precio_valor | moneda }} </p>
                             </div>
                         </div>
                         <hr>
