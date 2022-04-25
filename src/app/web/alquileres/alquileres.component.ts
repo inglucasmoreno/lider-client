@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import gsap from 'gsap';
+import { DataWebService } from 'src/app/services/data-web.service';
 
 @Component({
   selector: 'app-alquileres',
@@ -62,7 +63,7 @@ export class AlquileresComponent implements OnInit {
     },
   ];
 
-  constructor() { }
+  constructor(public dataWebService: DataWebService) { }
 
   ngOnInit(): void {
     var tl = gsap.timeline({defaults: { duration: 0.1 }});

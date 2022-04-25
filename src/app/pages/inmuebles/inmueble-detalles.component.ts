@@ -20,6 +20,7 @@ export class InmuebleDetallesComponent implements OnInit {
               private activatedRoute: ActivatedRoute,
               private inmueblesService: InmueblesService ) { }
 
+  // Inicio
   ngOnInit(): void {
     this.dataService.ubicacionActual = 'Dashboard - Inmuebles - Detalles';
     gsap.from('.gsap-contenido', { y:100, opacity: 0, duration: .2 });
@@ -30,6 +31,21 @@ export class InmuebleDetallesComponent implements OnInit {
     })
   }
 
+  // Alta de inmueble
+  altaBajaInmueble(activo: boolean): void {
+    this.alertService.loading();
+    this.inmueblesService.actualizarInmueble(this.id, { activo }).subscribe({
+      next: ({ inmueble }) => {
+        this.inmueble.activo = activo;
+        this.alertService.success(activo ? 'Inmueble dado de alta' : 'Inuemble dado de baja');
+      },
+      error: ({error}) => {
+        this.alertService.errorApi(error.message);  
+      }
+    })  
+  }
+
+  // Obtener datos de inmueble
   obtenerInmueble(): void {
     this.inmueblesService.getInmueble(this.id).subscribe({
       next: ({inmueble}) => {

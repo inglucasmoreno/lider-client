@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import gsap from 'gsap';
+import { DataWebService } from 'src/app/services/data-web.service';
 
 @Component({
   selector: 'app-home',
@@ -74,7 +75,7 @@ export class HomeComponent implements OnInit {
   private imgNumber = 1;
   public imgSelect: any = this.imagenes[this.imgNumber]; 
 
-  constructor() { }
+  constructor(public dataWebService: DataWebService) { }
 
   ngOnInit(): void {
    
@@ -84,13 +85,13 @@ export class HomeComponent implements OnInit {
       .from('.gsap-buscador', { y:100, opacity: 0, duration: 0.5, ease: 'back' })
       .from('.gsap-tarjetas', { y:100, opacity: 0, duration: 0.5, ease: 'back' });
       
-    }
-
-  cambiarImagen(accion: string): void {
-    if(accion === 'incrementar' && this.imgNumber < this.imagenes.length - 1) this.imgNumber += 1;
-    if(accion === 'decrementar' && this.imgNumber > 0) this.imgNumber -= 1;
-    this.imgSelect = this.imagenes[this.imgNumber];
-    console.log(this.imgSelect);
   }
+
+  // cambiarImagen(accion: string): void {
+  //   if(accion === 'incrementar' && this.imgNumber < this.imagenes.length - 1) this.imgNumber += 1;
+  //   if(accion === 'decrementar' && this.imgNumber > 0) this.imgNumber -= 1;
+  //   this.imgSelect = this.imagenes[this.imgNumber];
+  //   console.log(this.imgSelect);
+  // }
 
 }

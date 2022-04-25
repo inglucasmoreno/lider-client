@@ -27,10 +27,7 @@ export class InmueblesService {
       params: {
         direccion: String(direccion),
         columna              
-      },
-      headers: {
-        'Authorization': localStorage.getItem('token')
-      }      
+      }    
     })
   }
 
