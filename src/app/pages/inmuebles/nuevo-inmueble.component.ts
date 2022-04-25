@@ -9,6 +9,7 @@ import { ProvinciasService } from 'src/app/services/provincias.service';
 import gsap from 'gsap';
 import { DomSanitizer } from '@angular/platform-browser';
 import { CodigosService } from 'src/app/services/codigos.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-nuevo-inmueble',
@@ -63,6 +64,7 @@ export class NuevoInmuebleComponent implements OnInit {
               private provinciasService: ProvinciasService,
               private localidadesService: LocalidadesService,
               private sanitizer: DomSanitizer,
+              private router: Router,
               private inmueblesService: InmueblesService) { }
 
   ngOnInit(): void {
@@ -107,9 +109,10 @@ export class NuevoInmuebleComponent implements OnInit {
 
     this.alertService.loading();
     this.inmueblesService.nuevoInmueble(this.inmuebleForm.value).subscribe({
-      next: () => {
+      next: ({inmueble}) => {
         this.reiniciarFormulario();
-        this.alertService.success();
+        this.alertService.close();
+        this.router.navigateByUrl('dashboard/inmuebles/detalles/' + inmueble._id); 
       },
       error: ({error}) => {
         this.alertService.errorApi(error.message);

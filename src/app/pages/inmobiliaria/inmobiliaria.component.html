@@ -54,16 +54,16 @@
     </div>
     <div *ngIf="inmobiliaria" class="p-4">
         <div class="lg:flex lg:items-center">
-            <div class="lg:w-1/2">
+            <div class="lg:w-1/2 text-sm">
                 <label class="font-semibold"> Nombre </label>
                 <div class="border border-gray-300 p-2 bg-gray-100 mt-1 rounded w-full"> {{ inmobiliaria.nombre }} </div>
             </div>
-            <div class="lg:w-1/2 lg:ml-4 mt-2 lg:mt-0">
+            <div class="lg:w-1/2 lg:ml-4 mt-2 lg:mt-0 text-sm">
                 <label class="font-semibold"> Teléfono </label>
                 <div class="border border-gray-300 p-2 bg-gray-100 mt-1 rounded w-full"> {{ inmobiliaria.telefono }} </div>
             </div>
         </div>
-        <div class="lg:flex lg:items-center mt-2">
+        <div class="lg:flex lg:items-center mt-2 text-sm">
             <div class="lg:w-1/2">
                 <label class="font-semibold"> Dirección </label>
                 <div class="border border-gray-300 p-2 bg-gray-100 mt-1 rounded w-full"> {{ inmobiliaria.direccion }} </div>
@@ -73,14 +73,14 @@
                 <div class="border border-gray-300 p-2 bg-gray-100 mt-1 rounded w-full"> {{ inmobiliaria.email }} </div>
             </div>
         </div>
-        <div class="mt-2">
+        <div class="mt-2 text-sm">
             <label class="font-semibold"> Descripción </label>
             <div class="w-full p-2 bg-gray-100 rounded border mt-1 border-gray-300">
                 {{ inmobiliaria.descripcion }}
             </div>
         </div>
     </div>
-    <div class="p-2">
+    <div class="p-2 text-sm">
         <div *ngIf="!inmobiliaria" class="p-2 flex bg-gray-100 text-gray-600 rounded border border-gray-300 items-center">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                 <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />

@@ -27,10 +27,7 @@ export class InmobiliariaService {
       params: {
         direccion: String(direccion),
         columna              
-      },
-      headers: {
-        'Authorization': localStorage.getItem('token')
-      }      
+      }     
     });
   }
 

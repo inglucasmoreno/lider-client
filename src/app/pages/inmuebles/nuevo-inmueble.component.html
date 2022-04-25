@@ -33,7 +33,7 @@
             </div>
             <form [formGroup]="inmuebleForm" class="p-3 pb-4">
                 <div class="w-full text-sm">
-                    <p class="font-semibold"> Propietario del inmueble </p>
+                    <p class="font-semibold"> <span class="text-red-500"> * </span> Propietario del inmueble </p>
                     <select formControlName="propietario" class="mt-1 py-1 w-full transform duration-500 focus:border-primaryColor outline-none bg-white focus:outline-none border-b-2">
                         <option value=""> Seleccionar un propietario </option>
                         <option *ngFor="let propietario of propietarios" [value]="propietario._id"> {{ propietario.descripcion }} <span *ngIf="propietario.identificacion !== ''"> - {{ propietario.identificacion_tipo }} {{ propietario.identificacion }} </span> </option>
@@ -41,7 +41,7 @@
                 </div>
                 <div class="flex mt-4">
                     <div class="w-1/2 text-sm">
-                        <p class="font-semibold"> Tipo de inmueble </p>
+                        <p class="font-semibold"> <span class="text-red-500"> * </span> Tipo de inmueble </p>
                         <select (change)="seleccionarCodigo()" formControlName="tipo" class="mt-1 py-1 w-full transform duration-500 focus:border-primaryColor outline-none bg-white focus:outline-none border-b-2">
                             <option value="Casa"> Casa </option>
                             <option value="Departamento"> Departamento </option>
@@ -53,7 +53,7 @@
                         </select>
                     </div>
                     <div class="w-1/2 ml-4 text-sm">
-                        <p class="font-semibold"> Alquiler - Venta </p>
+                        <p class="font-semibold"> <span class="text-red-500"> * </span> Alquiler - Venta </p>
                         <select formControlName="alquiler_venta" class="mt-1 py-1 w-full transform duration-500 focus:border-primaryColor outline-none bg-white focus:outline-none border-b-2">
                             <option value="Alquiler"> Alquiler </option>
                             <option value="Venta"> Venta </option>
@@ -62,51 +62,51 @@
                 </div>
                 <div class="flex mt-2 text-sm">
                     <div class="w-1/2">
-                        <p class="font-semibold mt-2"> Provincia </p>
+                        <p class="font-semibold mt-2"> <span class="text-red-500"> * </span> Provincia </p>
                         <select formControlName="provincia" (change)="seleccionarProvincia()" class="mt-1 py-1 w-full transform duration-500 capitalize focus:border-primaryColor outline-none bg-white focus:outline-none border-b-2">
                             <option value=""> Seleccionar provincia </option>
-                            <option *ngFor="let provincia of provincias" [value]='provincia._id'> {{ provincia.descripcion.toLowerCase() }} </option>
+                            <option *ngFor="let provincia of provincias" [value]='provincia._id'> {{ provincia.descripcion }} </option>
                         </select>  
                     </div>
                     <div class="w-1/2 ml-4">
-                        <p class="font-semibold mt-2"> Localidad </p>
+                        <p class="font-semibold mt-2"> <span class="text-red-500"> * </span> Localidad </p>
                         <select formControlName="localidad" (change)="seleccionarLocalidad()" class="mt-1 py-1 w-full transform duration-500 capitalize focus:border-primaryColor outline-none bg-white focus:outline-none border-b-2">
                             <option value=""> Seleccionar localidad </option>
-                            <option *ngFor="let localidad of localidades" [value]='localidad._id'> {{ localidad.descripcion.toLowerCase() }} </option>
+                            <option *ngFor="let localidad of localidades" [value]='localidad._id'> {{ localidad.descripcion }} </option>
                         </select>  
                     </div>           
                 </div>
                 <div class="flex mt-2 text-sm">
                     <div class="w-full">
-                        <p class="font-semibold mt-1"> Dirección publica </p>
+                        <p class="font-semibold mt-1"> <span class="text-red-500"> * </span> Dirección publica </p>
                         <input formControlName="ubicacion_publica" type="text" placeholder="Ej. Sobre calle pringles" class="py-1 w-full mt-2 tranform duration-500 focus:border-primaryColor outline-none bg-white focus:outline-none border-b-2">
                     </div>
                 </div>
                 <div class="flex mt-2 text-sm">
                     <div class="w-full">
-                        <p class="font-semibold mt-1"> Dirección privada </p>
+                        <p class="font-semibold mt-1"> <span class="text-red-500"> * </span> Dirección privada </p>
                         <input formControlName="ubicacion_privada" type="text" placeholder="Ej. Sobre calle pringles" class="py-1 w-full mt-2 tranform duration-500 focus:border-primaryColor outline-none bg-white focus:outline-none border-b-2">
                     </div>
                 </div>
                 <div class="flex mt-2 text-sm">
                     <div class="w-full">
-                        <p class="font-semibold mt-1"> Descripción corta </p>
+                        <p class="font-semibold mt-1"> <span class="text-red-500"> * </span> Descripción corta </p>
                         <input formControlName="descripcion_corta" type="text" placeholder="Ej. Vivienda en muy buen estado, ubicación centrica" class="text-sm py-1 w-full mt-2 tranform duration-500 focus:border-primaryColor outline-none bg-white focus:outline-none border-b-2">
                     </div>
                 </div>
                 <div class="flex mt-2 text-sm">
                     <div class="w-full">
-                        <p class="font-semibold mt-1"> Descripción completa </p>
+                        <p class="font-semibold mt-1"> <span class="text-red-500"> * </span> Descripción completa </p>
                         <textarea formControlName="descripcion_completa" placeholder="Detallamos las caracteristicas del inmubele" rows="5" class="border-2 transform duration-500 outline-none focus:border-primaryColor text-sm p-2 mt-2 w-full focus:outline-none border-gray-300"></textarea>
                     </div>
                 </div>
                 <div class="flex mt-2 text-sm">
                     <div class="w-1/2">
-                        <p class="font-semibold"> Precio </p>
+                        <p class="font-semibold"> <span class="text-red-500"> * </span> Precio </p>
                         <input formControlName="precio_valor" type="number" placeholder="Ej. 10000" class="py-1 w-full mt-2 tranform duration-500 focus:border-primaryColor outline-none bg-white focus:outline-none border-b-2">
                     </div>
                     <div class="w-1/2 ml-4">
-                        <p class="font-semibold"> Moneda </p>
+                        <p class="font-semibold"> <span class="text-red-500"> * </span> Moneda </p>
                         <select formControlName="precio_moneda" class="py-1 w-full mt-2 tranform duration-500 focus:border-primaryColor outline-none bg-white focus:outline-none border-b-2">
                             <option value="Pesos"> Pesos </option>
                             <option value="Dolares"> Dolares </option>
@@ -114,7 +114,7 @@
                     </div>
                 </div>
                 <div class="w-1/2 text-sm mt-4">
-                    <p class="font-semibold"> ¿Mostrar precio en la web? </p>
+                    <p class="font-semibold"> <span class="text-red-500"> * </span> ¿Mostrar precio en la web? </p>
                     <select formControlName="precio_mostrar" class="mt-1 py-1 w-full transform duration-500 focus:border-primaryColor outline-none bg-white focus:outline-none border-b-2">
                         <option value=true> Si </option>
                         <option value=false> No </option>
