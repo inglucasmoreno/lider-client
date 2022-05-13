@@ -1,8 +1,8 @@
-<div class="lg:flex p-4 gsap-contenido">
-    <div class="w-full lg:w-1/2 bg-white mr-2 shadow rounded border border-gray-200">
+<div class="lg:flex lg:justify-center p-4 gsap-contenido">
+    <div class="w-full max-w-xl lg:w-1/2 bg-white mr-2 shadow rounded border border-gray-200">
         <div class="flex items-center pb-2 py-2 px-2 bg-primary-800 rounded-t">
             <app-boton-regresar routerLink="/dashboard/usuarios"></app-boton-regresar>
-            <h1 class="mt-1 ml-2 text-2xl text-white"> Formulario de edición </h1>
+            <h1 class="mt-1 ml-2 text-2xl text-white"> Editando usuario </h1>
         </div>
         <form [formGroup]="usuarioForm" class="px-5 pt-2 pb-8">
             <div class="flex flex-col lg:flex-row">
@@ -18,7 +18,7 @@
                         <span class="text-red-500"> * </span> Email
                     </div>
                     <div class="bg-white my-2 p-1 flex">
-                        <input type="email" formControlName="email" placeholder="Ej. lucasmoreno@gmail.com" class="p-1 px-2 border-b-2 tranform duration-500 focus:border-primaryColor appearance-none outline-none w-full text-gray-800 text-sm"></div>
+                        <input type="email" formControlName="email" placeholder="Ej. lucasmoreno@gmail.com" class="p-1 px-2 border-b-2 lowercase tranform duration-500 focus:border-primaryColor appearance-none outline-none w-full text-gray-800 text-sm"></div>
                 </div>
             </div>
             <div class="flex flex-col lg:flex-row">
@@ -76,7 +76,7 @@
         </form>
     </div>
 
-    <div class="mt-2 lg:mt-0 w-full lg:w-1/2 h-full">
+    <div class="mt-2 max-w-xl lg:mt-0 w-full lg:w-1/2 h-full">
         <div class="bg-white shadow p-4 rounded border border-gray-300">
             <div *ngIf="usuario" class="flex mb-2">
                 <div *ngIf="usuarioForm.value.role === 'ADMIN_ROLE'" class="bg-blue-100 flex items-center justify-center w-32 h-32 rounded-full shadow border border-blue-200">
@@ -113,13 +113,12 @@
         </div>
 
         <!-- Permisos de usuario -->
-        <div *ngIf="usuarioForm.value.role === 'USER_ROLE'" class="bg-white border rounded mt-2 p-4 shadow">
+        <!-- <div *ngIf="usuarioForm.value.role === 'USER_ROLE'" class="bg-white border rounded mt-2 p-4 shadow">
 
             <h1 class="font-semibold text-xl"> Permisos de usuario </h1>
             <p class="text-gray-500 text-sm"> Seleccione los permisos para el usuario estandar </p>
             <div class="mt-2 flex items-center">
 
-                <!-- Usuarios -->
                 <div class="w-1/2">
                     <p class="font-semibold"> Usuarios </p>
                     <select [(ngModel)]="permisos.usuarios" class="p-2 mt-1 w-full shadow bg-white border border-gray-200 rounded focus:outline-none">
@@ -130,6 +129,6 @@
                 </div>
 
             </div>
-        </div>
+        </div> -->
     </div>
 </div>

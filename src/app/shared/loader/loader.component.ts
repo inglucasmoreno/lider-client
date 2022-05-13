@@ -17,6 +17,7 @@ export class LoaderComponent implements OnInit {
   ngOnInit(): void {
     this.router.events.subscribe(event => {
       if(event instanceof NavigationStart){ // Comienza la navegacion
+        this.cerrarMenu();
         this.show = true;
       }else if(event instanceof NavigationEnd){ // Finaliza la navegacion
         window.scrollTo(0,0);  // Vista en la parte superior de la aplicacion 
@@ -24,5 +25,11 @@ export class LoaderComponent implements OnInit {
       }
     });
   }
+
+  // Se cierra el menu en vista movil
+  cerrarMenu(): void {
+    this.dataService.showMenu = false;
+  }
+
   
 }

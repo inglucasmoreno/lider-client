@@ -1,5 +1,6 @@
-<div class="lg:flex p-2 gsap-contenido">
-    <div  *ngIf="inmueble" class="border broder-gray-300 shadow w-full lg:w-1/2">
+<div class="lg:flex lg:justify-center p-2 gsap-contenido">
+    
+    <div *ngIf="inmueble" class="border max-w-xl broder-gray-300 shadow w-full lg:w-1/2">
         <div class="flex items-center justify-between p-2 bg-gray-800 text-white">
             <div class="flex items-center">
                 <app-boton-regresar routerLink="/dashboard/inmuebles"></app-boton-regresar>
@@ -126,7 +127,9 @@
             </div>     
         </div>
     </div>
-    <div *ngIf="inmueble" class="w-full border border-gray-300 shadow h-full lg:ml-2 lg:w-1/2 mt-2 lg:mt-0">
+    
+    
+    <div *ngIf="inmueble" class="w-full max-w-xl border border-gray-300 shadow h-full lg:ml-2 lg:w-1/2 mt-2 lg:mt-0">
         <div class="bg-gray-800 flex items-center justify-between border border-gray-800 rounded-t p-3 text-white">
             <h1 class="text-xl"> Imagenes del inmueble </h1>
         </div>
