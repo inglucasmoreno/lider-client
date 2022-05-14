@@ -12,6 +12,8 @@ import { VentasComponent } from './ventas/ventas.component';
 import { ContactenosComponent } from './contactenos/contactenos.component';
 import { ComponentsModule } from '../components/components.module';
 import { DetallesInmuebleComponent } from './detalles-inmueble/detalles-inmueble.component';
+import { SharedModule } from '../shared/shared.module';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -30,6 +32,7 @@ import { DetallesInmuebleComponent } from './detalles-inmueble/detalles-inmueble
     ComponentsModule,
     AppRoutingModule,
     PipesModule,
+    FormsModule
   ]
 })
 export class WebModule { }

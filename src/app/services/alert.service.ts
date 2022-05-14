@@ -6,7 +6,7 @@ import Swal from 'sweetalert2';
 })
 export class AlertService {
 
-  public buttonColor: string = '#1b6c99';
+  public buttonColor: string = '#186D96';
 
   constructor() { }
   
@@ -31,6 +31,17 @@ export class AlertService {
       text: msg,
       timer: 1000,
       showConfirmButton: false
+    });
+  }
+
+  // Alerta - Completado
+  successConfirm(msg: string = 'Acción completada!'): void {
+    Swal.fire({
+      icon: 'success',
+      title: 'Consulta enviada',
+      text: msg,
+      confirmButtonText: 'Entendido',
+      confirmButtonColor: this.buttonColor
     });
   }
 

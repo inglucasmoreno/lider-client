@@ -1,9 +1,9 @@
 <!-- Header -->
-<div class="shadow-xl border w-full">
+<div class="shadow border-b w-full">
     <div class="md:px-4 flex items-center justify-between">
         <img class="w-40 ml-4" src="assets/img/Logo-Lider.jpeg" alt="">
         <div *ngIf="dataWebService.inmobiliaria" class="mr-5 text-right">
-            <p class="text-md font-semibold md:text-2xl"> Tel. {{ dataWebService.inmobiliaria.telefono }} </p>
+            <p class="text-md font-semibold md:text-2xl"> Tel. {{ dataWebService?.inmobiliaria.telefono }} </p>
             <p class="hidden md:block text-sm"> {{ dataWebService.inmobiliaria.direccion }} , San Luis (Argentina) </p>
             <p class="block md:hidden text-sm"> {{ dataWebService.inmobiliaria.direccion }} </p>
             <p class="block md:hidden text-sm"> San Luis (Argentina) </p>
