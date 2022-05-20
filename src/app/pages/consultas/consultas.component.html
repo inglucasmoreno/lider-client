@@ -6,15 +6,23 @@
         <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
       </svg>      
     </div>
-    <div class="p-2 text-sm">
-      <p class="py-2"> <span class="font-semibold"> Fecha: </span> {{ consultaSeleccionada?.createdAt | fecha }} </p>
-      <p class="pb-1"> <span class="font-semibold"> Apellido y Nombre: </span> {{ consultaSeleccionada?.apellido }} {{ consultaSeleccionada?.nombre }} </p>
-      <p class="pb-1"> <span class="font-semibold"> Teléfono: </span> {{ consultaSeleccionada?.telefono.trim === '' ? consultaSeleccionada?.telefono : 'No especificado'}} </p>
-      <p class="pb-1"> <span class="font-semibold"> Correo: </span> {{ consultaSeleccionada?.email.trim() !== '' ? consultaSeleccionada?.email : 'No especificado' }} </p>
+    <div class="p-2 flex items-center justify-between text-sm">
+      <div>
+        <p class="py-2"> <span class="font-semibold"> Fecha: </span> {{ consultaSeleccionada?.createdAt | fecha }} </p>
+        <p class="pb-1"> <span class="font-semibold"> Apellido y Nombre: </span> {{ consultaSeleccionada?.apellido }} {{ consultaSeleccionada?.nombre }} </p>
+        <p class="pb-1"> <span class="font-semibold"> Teléfono: </span> {{ consultaSeleccionada?.telefono.trim() !== '' ? consultaSeleccionada?.telefono : 'No especificado'}} </p>
+        <p class="pb-1"> <span class="font-semibold"> Correo: </span> {{ consultaSeleccionada?.email.trim() !== '' ? consultaSeleccionada?.email : 'No especificado' }} </p>
+        <p *ngIf="consultaSeleccionada.codigo !== ''" class="pb-1"> <span class="font-semibold"> Motivo: </span> Contactar asesor </p>
+        <p *ngIf="consultaSeleccionada.codigo !== ''" class="pb-1"> <span class="font-semibold"> Codigo de inmueble: </span> {{ consultaSeleccionada.codigo }} </p>
+      </div>
+      <img *ngIf="consultaSeleccionada.codigo !== '' && consultaSeleccionada.activo" class="w-40 mr-10 hidden md:block" src="assets/img/consultas/operador.svg" alt="Operador">
+      <img *ngIf="consultaSeleccionada.codigo === '' && consultaSeleccionada.activo" class="w-40 mr-10 hidden md:block" src="assets/img/consultas/mensaje.svg" alt="Mensaje">
+      <img *ngIf="!consultaSeleccionada.activo" class="w-40 mr-10 hidden md:block" src="assets/img/consultas/atendida.svg" alt="Mensaje">
     </div>
-    <div class="p-2">
-      <div class="border border-gray-300 text-sm">
-        <p class="p-2 bg-gray-100 border-b border-gray-300"> <span class="font-semibold"> Asunto: </span> {{ consultaSeleccionada.asunto}} </p>
+    <div *ngIf="consultaSeleccionada.codigo.trim() === ''" class="p-2">
+      <div class="text-sm">
+        <p class="p-2"> <span class="font-semibold"> Asunto: </span> {{ consultaSeleccionada.asunto}} </p>
+        <hr>
         <p class="p-2"> {{ consultaSeleccionada.mensaje }} </p>
       </div>
     </div>
@@ -29,8 +37,10 @@
     </div>
   </div>
 </app-modal>
+
 <div class="p-4 gsap-contenido flex flex-col justify-center items-center">
-  <div class="p-2 flex items-center justify-center">
+  <h1 class="text-4xl md:text-5xl"> Listado de consultas </h1>
+  <div class="p-2 flex mt-4 items-center justify-center">
     <select (change)="filtradoConsultas()" [(ngModel)]="filtros.activo" class="focus:outline-none p-2 border border-gray-400 shadow rounded">
       <option value="true"> No atendidas </option>
       <option value="false"> Atendidas </option>
@@ -46,22 +56,21 @@
   <div *ngIf="consultas.length > cantidadItems" class="bg-white text-center w-full max-w-2xl mt-4 text-sm flex flex-col xs:flex-row xs:justify-between">
     <pagination-controls nextLabel="Siguiente" previousLabel="Anterior" (pageChange)="paginaActual = $event"></pagination-controls>
   </div>
-  <div (click)="abrirModal(consulta)" class="border w-full cursor-pointer my-4 rounded hover:border-blue-500 max-w-2xl flex items-center bg-white justify-between border-gray-400 shadow p-2" *ngFor="let consulta of consultas | paginate: {itemsPerPage: cantidadItems, currentPage: paginaActual}">
+  <div (click)="abrirModal(consulta)" class="border w-full cursor-pointer my-4 rounded hover:bg-blue-100 hover:border-blue-700 max-w-2xl flex items-center bg-white justify-between border-gray-400 shadow p-2" *ngFor="let consulta of consultas | paginate: {itemsPerPage: cantidadItems, currentPage: paginaActual}">
     <div>
       <p class="text-sm mb-2"> <span class="font-semibold"> Fecha: </span> <span> {{ consulta?.createdAt | fecha }} </span> </p>  
       <p class="text-sm pb-1"> <span class="font-semibold"> Apellido y Nombre: </span> <span> {{ consulta?.apellido }} {{ consulta?.nombre }} </span> </p>  
-      <p class="text-sm pb-1"> <span class="font-semibold"> Telefono: </span> <span> {{ consulta.telefono?.trim() !== '' ? consulta.telefono?.trim() : 'No especificado' }} </span> </p>  
+      <p class="text-sm pb-1"> <span class="font-semibold"> Telefono: </span> <span> {{ consulta.telefono?.trim() !== '' ? consulta.telefono : 'No especificado' }} </span> </p>  
       <p class="text-sm pb-1"> <span class="font-semibold"> Correo: </span> <span> {{ consulta.email.trim() !== '' ? consulta?.email : 'No especificado' }} </span> </p>  
     </div>
-    <div *ngIf="consulta.activo">
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
-      </svg>        
+    <div *ngIf="consulta.activo && consulta.codigo.trim() !== ''">
+      <img class="w-20" src="assets/img/consultas/operador.svg" alt="Operador">
+    </div> 
+    <div *ngIf="consulta.activo && consulta.codigo.trim() === ''">
+      <img class="w-20" src="assets/img/consultas/mensaje.svg" alt="Mensaje">      
     </div>
     <div *ngIf="!consulta.activo">
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
-      </svg>
+      <img class="w-20" src="assets/img/consultas/atendida.svg" alt="Atendida">      
     </div>
   </div>
   <div class="mt-4" *ngIf="consultas.length <= 0">

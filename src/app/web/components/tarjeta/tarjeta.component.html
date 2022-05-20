@@ -1,7 +1,7 @@
 <div class="w-full rounded-t mt-10 border shadow-xl">
     <div class="relative">
         <img class="rounded-t object-cover w-full h-60" src="assets/img/inmuebles/sin-imagen.png" alt="Imagen de inmueble">
-        <p  [ngClass]="{'bg-green-700' : elemento.venta, 'bg-orange-700' : !elemento.venta}"
+        <p  [ngClass]="{'bg-green-700' : elemento.alquiler_venta === 'Venta', 'bg-orange-700' : elemento.alquiler_venta === 'Alquiler'}"
             class="absolute top-0 right-0 py-2 px-4 text-white opacity-80"> 
             {{ elemento.alquiler_venta }}
         </p>
@@ -25,7 +25,7 @@
     </div>
     <hr>
     <div class="flex items-center justify-center mt-2 mb-2 w-full p-2">
-        <button class="p-2 border rounded w-1/2 bg-secondaryColor text-white"> Contactar asesor </button>
+        <button (click)="contactarAsesor()" class="p-2 border rounded w-1/2 bg-secondaryColor text-white"> Contactar asesor </button>
         <button routerLink="/web/detalles-inmueble/3" class="p-2 border rounded ml-2 w-1/2 bg-secondaryColor text-white"> Detalles </button>
     </div>
 </div>

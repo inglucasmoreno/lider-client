@@ -48,6 +48,7 @@ export class ConsultasComponent implements OnInit {
 
   // Abrir modal
   abrirModal(consulta: any): void {
+    window.scrollTo(0,0);
     this.obtenerConsulta(consulta._id);
   }
 
