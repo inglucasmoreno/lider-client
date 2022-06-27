@@ -10,6 +10,7 @@ import { DataWebService } from '../../services/data-web.service';
 export class HeaderComponent implements OnInit {
 
   public inmobiliaria;
+  public showMenu = false;
 
   constructor(public dataWebService: DataWebService) { }
 

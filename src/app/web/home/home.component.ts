@@ -2,8 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import gsap from 'gsap';
 import { AlertService } from 'src/app/services/alert.service';
 import { ConsultasService } from 'src/app/services/consultas.service';
-import { DataWebService } from 'src/app/services/data-web.service';
 import { InmueblesService } from 'src/app/services/inmuebles.service';
+import { LocalidadesService } from 'src/app/services/localidades.service';
+import { ProvinciasService } from 'src/app/services/provincias.service';
+
 
 @Component({
   selector: 'app-home',
@@ -17,6 +19,16 @@ export class HomeComponent implements OnInit {
   public showAsesor = false;
   public inmuebleSeleccionado:any;
   public inmuebles:any[];
+  public provincias: any[];
+  public localidades: any[];
+
+  // Parametros de busqueda
+  public parametros = {
+    provincia: '',
+    tipo: 'Casa',
+    localidad: '',
+    alquiler_venta: ''
+  }
   
   // Formulario consulta
   public dataConsulta = {
@@ -29,9 +41,11 @@ export class HomeComponent implements OnInit {
     mensaje: 'Contactar asesor'
   }
 
-  constructor(public alertService: AlertService,
-              public consultasService: ConsultasService,
-              public inmueblesService: InmueblesService) { }
+  constructor(private alertService: AlertService,
+              private provinciasService: ProvinciasService,
+              private localidadesService: LocalidadesService,
+              private consultasService: ConsultasService,
+              private inmueblesService: InmueblesService) { }
 
   ngOnInit(): void {
     
@@ -41,7 +55,16 @@ export class HomeComponent implements OnInit {
       .from('.gsap-buscador', { y:100, opacity: 0, duration: 0.5, ease: 'back' })
       .from('.gsap-tarjetas', { y:100, opacity: 0, duration: 0.5, ease: 'back' });
       
-    this.listarInmuebles();
+    this.alertService.loading();
+    this.inmueblesService.listarInmuebles().subscribe({
+      next: ({inmuebles}) => {
+        this.inmuebles = inmuebles.filter(inmueble => inmueble.activo);
+        this.listarProvincias();
+      },
+      error: ({error}) => {
+        this.alertService.errorApi(error.message);
+      }
+    });
 
   }
 
@@ -58,6 +81,7 @@ export class HomeComponent implements OnInit {
     });
   }
 
+  // Contactar asesor
   contactarAsesor($event){
     this.reiniciarFormularios();
     window.scrollTo(0,0);
@@ -65,6 +89,7 @@ export class HomeComponent implements OnInit {
     this.showAsesor = true;
   }
 
+  // Generar consulta
   generarConsulta(): void {
 
     const { apellido, nombre, telefono, email } = this.dataConsulta;
@@ -97,6 +122,36 @@ export class HomeComponent implements OnInit {
     });
   }
 
+  // Listar provincias
+  listarProvincias(): void {
+    this.provinciasService.listarProvincias().subscribe({
+      next: ({provincias}) => {
+        this.provincias = provincias;
+        this.alertService.close();
+        console.log(provincias);
+      },
+      error: ({error}) => this.alertService.errorApi(error.message) 
+    });
+  }
+
+  // Cambio de provincia
+  cambioProvincia(): void {
+    if(this.parametros?.provincia.trim() !== ''){
+      this.alertService.loading();
+      this.localidadesService.listarLocalidadesPorProvincia(1, 'descripcion', this.parametros.provincia).subscribe({
+        next: ({localidades}) => {
+          this.localidades = localidades;
+          // this.localidades = localidades.filter(localidad => localidad.provincia !== this.parametros.provincia);
+          this.alertService.close();
+        },
+        error: ({error}) => this.alertService.errorApi(error.message)
+      })
+    }else{
+      this.parametros.provincia = '';
+    }
+  }
+
+  // Reiniciar formulario
   reiniciarFormularios(): void {
     this.dataConsulta = {
       codigo: '',

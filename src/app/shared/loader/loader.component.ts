@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NavigationEnd, NavigationStart, Router } from '@angular/router';
 import { DataService } from 'src/app/services/data.service';
+import { DataWebService } from '../../services/data-web.service';
 
 @Component({
   selector: 'app-loader',
@@ -12,6 +13,7 @@ export class LoaderComponent implements OnInit {
   public show = false;
 
   constructor(private router: Router,
+              private dataWebService: DataWebService,
               private dataService: DataService) { }
 
   ngOnInit(): void {
@@ -29,6 +31,7 @@ export class LoaderComponent implements OnInit {
   // Se cierra el menu en vista movil
   cerrarMenu(): void {
     this.dataService.showMenu = false;
+    this.dataWebService.showMenu = false;
   }
 
   

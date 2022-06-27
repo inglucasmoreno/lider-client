@@ -27,11 +27,6 @@ export class HeaderComponent implements OnInit {
     // console.log(this.authService.usuario);
     this.items = items;
   }
-  
-  // Habilitacion de navegacion
-  habilitacionNavegacion(): void {
-
-  }
 
   // Metodo: Cerrar sesion
   logout(): void{ this.authService.logout(); }
