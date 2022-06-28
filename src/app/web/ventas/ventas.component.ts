@@ -17,6 +17,16 @@ export class VentasComponent implements OnInit {
   public inmuebleSeleccionado:any;
   public inmuebles:any[];
   
+  // Parametros de busqueda
+  public parametros = {
+    provincia: '',
+    tipo: 'Casa',
+    localidad: '',
+    alquiler_venta: '',
+    direccion: 1,
+    columna: 'codigo'
+  }
+
   // Formulario consulta
   public dataConsulta = {
     codigo: '',
@@ -45,7 +55,7 @@ export class VentasComponent implements OnInit {
 
   listarInmuebles(): void {
     this.alertService.loading();
-    this.inmueblesService.listarInmuebles().subscribe({
+    this.inmueblesService.listarInmuebles(this.parametros).subscribe({
       next: ({inmuebles}) => {
         this.inmuebles = inmuebles.filter(inmueble => (inmueble.activo && inmueble.alquiler_venta === 'Venta'));
         this.alertService.close();

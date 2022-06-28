@@ -26,6 +26,6 @@
     <hr>
     <div class="flex items-center justify-center mt-2 mb-2 w-full p-2">
         <button (click)="contactarAsesor()" class="p-2 border rounded w-1/2 bg-secondaryColor text-white"> Contactar asesor </button>
-        <button routerLink="/web/detalles-inmueble/3" class="p-2 border rounded ml-2 w-1/2 bg-secondaryColor text-white"> Detalles </button>
+        <button [routerLink]="['/web/detalles-inmueble/',elemento._id]" class="p-2 border rounded ml-2 w-1/2 bg-secondaryColor text-white"> Detalles </button>
     </div>
 </div>

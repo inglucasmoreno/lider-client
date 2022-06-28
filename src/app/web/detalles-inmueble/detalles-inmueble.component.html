@@ -1,35 +1,92 @@
-<div>
+<app-modal [showModal]="showModalImagenes">
+    <div class="bg-primary-800 flex items-center justify-between text-white rounded-t p-2">
+        <h1 class="text-lg"> Fotos del inmueble ({{ this.imagenSeleccionada.index + 1 }}/{{ this.imagenes.length }}) </h1> 
+        <svg (click)="showModalImagenes = false" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 cursor-pointer" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+    </div>
+    <div class="bg-gray-100">
+        <div class="pb-4">
+            <img class="h-72 w-96 object-cover mx-auto shadow-lg rounded border" [src]="imagenSeleccionada.url" [alt]="imagenSeleccionada.nombre">        
+        </div>
+        <div class="flex items-center font-semibold pb-4 px-4 justify-center">
+            <button (click)="cambiarImagen('anterior')" class="bg-secondaryColor text-white p-2 shadow w-1/2"> Anterior </button>
+            <button (click)="cambiarImagen('proxima')" class="bg-secondaryColor text-white p-2 ml-2 rounded shadow w-1/2"> Siguiente </button>
+        </div>
+    </div>
+</app-modal>
+<!-- Pagina principal -->
+<div *ngIf="inmueble">
+    
     <div class="relative">
         <img class="w-full gsap-imagen h-96 object-cover blur-sm" src="https://i.ytimg.com/vi/rmcMKX_QMRc/maxresdefault.jpg" alt="">
         <img class="md:w-1/2 gsap-imagen h-96 absolute top-0 bottom-0 mx-auto left-0 right-0 object-cover" src="https://i.ytimg.com/vi/rmcMKX_QMRc/maxresdefault.jpg" alt="">
-        <div class="bg-gray-900 left-0 w-1/2 flex flex-col text-white items-center z-10 gsap-imagen justify-center top-0 right-0 opacity-70 mx-auto bottom-0 absolute">
-            <h1 class="text-4xl"> Departamento </h1>
+        <div class="bg-gray-900 left-0 w-full md:w-1/2 flex flex-col text-white items-center z-8 gsap-imagen justify-center top-0 right-0 opacity-80 mx-auto bottom-0 absolute">
+            <h1 class="text-5xl"> {{ inmueble?.tipo }} </h1>
             <p class="mt-4 flex items-center"> 
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                     <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                 </svg>
-                <span class="ml-1">
-                    Cruz de piedra (San Luis)  
+                <span class="ml-1 capitalize text-2xl">
+                    {{ inmueble?.provincia?.descripcion.toLowerCase() }} ({{ inmueble?.localidad?.descripcion.toLowerCase() }})  
                 </span>
             </p>
-            <p class="mt-4 text-2xl bg-green-600 opacity-80 px-2 rounded"> Venta </p>
+            <p [ngClass]="{'bg-green-600':inmueble?.alquiler_venta === 'Venta','bg-orange-600':inmueble?.alquiler_venta === 'Alquiler'}" class="mt-4 text-2xl opacity-80 rounded py-2 px-4"> {{ inmueble?.alquiler_venta }} </p>
         </div>
     </div>
-    <div class="mt-4 flex">
 
-        <div class="w-1/2 border p-2">
-            <h1 class="text-center font-semibold text-2xl"> Detalles del inmueble </h1>
-            <div class="mt-2">
-                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Labore deleniti porro sapiente asperiores rem voluptatibus, fugiat et voluptate ullam esse itaque unde, eligendi expedita velit totam modi. Quas, exercitationem odit!    
+    <!-- Contenido del inmueble -->
+    <div class="mt-4 md:flex">
+
+        <div class="w-11/12 md:w-1/2 h-full rounded-t ml-2">
+            <h1 class="text-center text-3xl p-2 rounded-t border-b-2"> Descripción del inmueble </h1>
+            <div class="p-2">
+                <!-- <p class="font-semibold text-center"> Descripción general </p> -->
+                <p class="text-center">
+                    {{ inmueble?.descripcion_completa }}
+                </p>
+            </div>
+            
+            <div class="flex w-10/12 flex-wrap items-center text-center mx-auto justify-center">
+                <p class="text-white px-2 text-sm bg-gray-700 py-1 ml-2 rounded shadow w-max mt-2"> 
+                    {{ inmueble?.tipo }} 
+                </p>
+                <p class="text-white flex items-center px-2 text-sm bg-gray-700 py-1 ml-2 rounded shadow w-max mt-2 capitalize"> 
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                    <span class="ml-1">
+                        {{ inmueble?.provincia.descripcion.toLowerCase() }} ({{ inmueble?.localidad.descripcion.toLowerCase() }}) 
+                    </span>
+                </p>
+                <p *ngIf="!inmueble?.precio_mostrar" class="text-white px-2 text-sm bg-gray-700 py-1 ml-2 rounded shadow w-max mt-2"> Consultar precio </p>
+                <p *ngIf="inmueble?.precio_mostrar" class="text-white px-2 text-sm flex items-center bg-gray-700 py-1 ml-2 rounded shadow w-max mt-2"> 
+                    <span>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" />
+                        </svg>
+                    </span>
+                    <span class="ml-1">
+                        ${{ inmueble?.precio_valor | moneda }} 
+                    </span>
+                </p>
+                <p [ngClass]="{'bg-green-600':inmueble?.alquiler_venta === 'Venta', 'bg-orange-600':inmueble?.alquiler_venta === 'Alquiler'}" class="text-white text-sm px-2 py-1 ml-2 rounded shadow w-max mt-2"> {{ inmueble?.alquiler_venta }} </p>
+            </div>
+
+            <div class="flex items-center p-3 border-t-2 justify-center text-center mt-4">
+                <div>
+                    <p class="font-semibold"> ¿Te interesa este inmueble?, contacta un asesor! </p>
+                    <button class="bg-secondaryColor text-white p-2 rounded shadow mt-3"> Contactar asesor </button>
+                </div>
             </div>
         </div>
-
-        <div class="w-1/2 p-2">
-            <h1 class="text-center font-semibold text-2xl mb-5"> Galeria de fotos </h1>
-            <img class="h-72 w-96 object-cover mt-2 mx-auto shadow-lg rounded border" [src]="imagenSeleccionada.url" [alt]="imagenSeleccionada.nombre">
-            <div class="flex flex-wrap items-center mt-2 justify-center">
-                <img (click)="imagenSeleccionada = imagen" class="h-32 w-32 cursor-pointer hover:opacity-80 object-cover m-2 shadow-lg rounded" *ngFor="let imagen of imagenes" [src]="imagen.url" [alt]="imagen.nombre">
+        
+        <div class="w-11/12 mt-5 md:ml-10 md:mr-10 md:mt-0 md:w-1/2 px-2">
+            <h1 class="text-center text-3xl p-2 border-b-2"> Fotos del inmueble </h1>
+            <div class="flex flex-wrap items-center justify-center mt-2">
+                <img (click)="abrirModalImagenes(imagen)" class="h-32 w-32 cursor-pointer hover:opacity-80 object-cover m-2 shadow-lg rounded" *ngFor="let imagen of imagenes" [src]="imagen?.url" [alt]="imagen.nombre">
             </div>
         </div>
     </div>

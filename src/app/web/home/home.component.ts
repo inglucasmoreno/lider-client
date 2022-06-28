@@ -22,12 +22,17 @@ export class HomeComponent implements OnInit {
   public provincias: any[];
   public localidades: any[];
 
+  // Loading
+  public loadingLocalidades = false;
+
   // Parametros de busqueda
   public parametros = {
     provincia: '',
-    tipo: 'Casa',
+    tipo: '',
     localidad: '',
-    alquiler_venta: ''
+    alquiler_venta: '',
+    direccion: -1,
+    columna: 'createdAt'
   }
   
   // Formulario consulta
@@ -56,7 +61,7 @@ export class HomeComponent implements OnInit {
       .from('.gsap-tarjetas', { y:100, opacity: 0, duration: 0.5, ease: 'back' });
       
     this.alertService.loading();
-    this.inmueblesService.listarInmuebles().subscribe({
+    this.inmueblesService.listarInmuebles(this.parametros).subscribe({
       next: ({inmuebles}) => {
         this.inmuebles = inmuebles.filter(inmueble => inmueble.activo);
         this.listarProvincias();
@@ -70,8 +75,9 @@ export class HomeComponent implements OnInit {
 
   listarInmuebles(): void {
     this.alertService.loading();
-    this.inmueblesService.listarInmuebles().subscribe({
+    this.inmueblesService.listarInmuebles(this.parametros).subscribe({
       next: ({inmuebles}) => {
+        console.log(inmuebles);
         this.inmuebles = inmuebles.filter(inmueble => inmueble.activo);
         this.alertService.close();
       },
@@ -103,7 +109,7 @@ export class HomeComponent implements OnInit {
     }
 
     if(verificacion_2){
-      this.alertService.info('Debe colocar su teléfono o email');
+      this.alertService.info('Debe colocar su teléfono y/o email');
       return;
     }
 
@@ -113,7 +119,7 @@ export class HomeComponent implements OnInit {
 
     this.consultasService.nuevaConsulta(this.dataConsulta).subscribe({
       next: () => {
-        this.alertService.successConfirm('Nos contactaremos pronto contigo!');
+        this.alertService.successConfirm('Te contactaremos pronto!');
         this.showAsesor = false;
       },
       error: ({error}) => {
@@ -124,27 +130,28 @@ export class HomeComponent implements OnInit {
 
   // Listar provincias
   listarProvincias(): void {
-    this.provinciasService.listarProvincias().subscribe({
+    this.provinciasService.listarProvincias(1,'descripcion').subscribe({
       next: ({provincias}) => {
         this.provincias = provincias;
         this.alertService.close();
-        console.log(provincias);
       },
-      error: ({error}) => this.alertService.errorApi(error.message) 
+      error: (error) => this.alertService.errorApi(error) 
     });
   }
 
   // Cambio de provincia
   cambioProvincia(): void {
     if(this.parametros?.provincia.trim() !== ''){
-      this.alertService.loading();
+      this.loadingLocalidades = true;
       this.localidadesService.listarLocalidadesPorProvincia(1, 'descripcion', this.parametros.provincia).subscribe({
         next: ({localidades}) => {
           this.localidades = localidades;
-          // this.localidades = localidades.filter(localidad => localidad.provincia !== this.parametros.provincia);
-          this.alertService.close();
+          this.loadingLocalidades = false;
         },
-        error: ({error}) => this.alertService.errorApi(error.message)
+        error: ({error}) => {
+          this.loadingLocalidades = false;
+          this.alertService.errorApi(error.message)
+        }
       })
     }else{
       this.parametros.provincia = '';

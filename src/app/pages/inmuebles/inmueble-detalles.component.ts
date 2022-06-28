@@ -49,7 +49,7 @@ export class InmuebleDetallesComponent implements OnInit {
   obtenerInmueble(): void {
     this.inmueblesService.getInmueble(this.id).subscribe({
       next: ({inmueble}) => {
-        this.inmueble = inmueble[0];
+        this.inmueble = inmueble;
         this.alertService.close();
       },
       error: ({error}) => {

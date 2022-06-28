@@ -14,11 +14,7 @@ export class ProvinciasService {
 
   // Provincia por ID
   getProvincia(id: string): Observable<any>{
-    return this.http.get(`${base_url}/provincias/${id}`, {
-      headers: {
-        'Authorization': localStorage.getItem('token')
-      }
-    });
+    return this.http.get(`${base_url}/provincias/${id}`, {});
   } 
 
   // Listar provincias
@@ -27,10 +23,7 @@ export class ProvinciasService {
       params: {
         direccion: String(direccion),
         columna              
-      },
-      headers: {
-        'Authorization': localStorage.getItem('token')
-      }      
+      }     
     });
   }
 

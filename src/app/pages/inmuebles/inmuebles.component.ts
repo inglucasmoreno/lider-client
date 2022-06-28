@@ -47,7 +47,13 @@ export class InmueblesComponent implements OnInit {
     this.listarInmuebles();
   }
   listarInmuebles(): void {
-    this.inmueblesService.listarInmuebles(this.ordenar.direccion, this.ordenar.columna).subscribe({
+
+    const parametros = {
+      direccion: this.ordenar.direccion,
+      ordenar: this.ordenar.columna
+    };
+
+    this.inmueblesService.listarInmuebles(parametros).subscribe({
 
       next: ({ inmuebles }) => {
         this.inmuebles = inmuebles;

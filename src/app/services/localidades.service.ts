@@ -14,11 +14,7 @@ export class LocalidadesService {
 
   // Localidad por ID
   getLocalidad(id: string): Observable<any>{
-    return this.http.get(`${base_url}/localidades/${id}`, {
-      headers: {
-        'Authorization': localStorage.getItem('token')
-      }
-    });
+    return this.http.get(`${base_url}/localidades/${id}`, {});
   } 
 
   // Listar localidades
@@ -27,10 +23,7 @@ export class LocalidadesService {
       params: {
         direccion: String(direccion),
         columna              
-      },
-      headers: {
-        'Authorization': localStorage.getItem('token')
-      }      
+      }    
     });
   }
 
@@ -41,10 +34,7 @@ export class LocalidadesService {
         direccion: String(direccion),
         columna,
         provincia              
-      },
-      headers: {
-        'Authorization': localStorage.getItem('token')
-      }      
+      },     
     });
   }
 

@@ -15,18 +15,20 @@ export class InmueblesService {
   // Inmueble por ID
   getInmueble(id: string): Observable<any>{
     return this.http.get(`${base_url}/inmuebles/${id}`, {
-      headers: {
-        'Authorization': localStorage.getItem('token')
-      }
+      headers: {}
     });
   } 
 
   // Listar inmuebles
-  listarInmuebles( direccion : number = 1, columna: string = 'codigo' ): Observable<any>{
+  listarInmuebles(parametros: any): Observable<any>{
     return this.http.get(`${base_url}/inmuebles`, {
       params: {
-        direccion: String(direccion),
-        columna              
+        direccion: String(parametros.direccion) || '',
+        columna: parametros.columna || '',
+        tipo: parametros.tipo || '',
+        alquiler_venta: parametros.alquiler_venta || '',
+        provincia: parametros.provincia || '',
+        localidad: parametros.localidad || ''               
       }    
     })
   }
