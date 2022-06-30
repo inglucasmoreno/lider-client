@@ -4,6 +4,7 @@ import gsap from 'gsap';
 import { AlertService } from 'src/app/services/alert.service';
 import { ConsultasService } from 'src/app/services/consultas.service';
 import { InmueblesService } from 'src/app/services/inmuebles.service';
+import { DataWebService } from '../../services/data-web.service';
 
 @Component({
   selector: 'app-detalles-inmueble',
@@ -75,12 +76,13 @@ export class DetallesInmuebleComponent implements OnInit {
   public showModalImagenes = false;
 
   constructor(private inmuebleService: InmueblesService,
+              public dataWebService: DataWebService,
               private consultasService: ConsultasService,
               private activatedRoute: ActivatedRoute,
               private alertService: AlertService) { }
 
   ngOnInit(): void {
-    console.log(this.imagenes[3]);
+    this.dataWebService.showModalInmueble = false;
     this.activatedRoute.params.subscribe(({id}) => this.idInmueble = id);
     var tl = gsap.timeline({defaults: { duration: 0.1 }});
     tl.from('.gsap-imagen', { x:-200, opacity: 0, duration: 0.5, ease: 'back' });
@@ -115,6 +117,12 @@ export class DetallesInmuebleComponent implements OnInit {
   
   }
 
+  // Contactar asesor
+  contactarAsesor(){
+    this.reiniciarFormularios();
+    window.scrollTo(0,0);
+    this.showAsesor = true;
+  }
   
   // Generar consulta
   generarConsulta(): void {
@@ -147,6 +155,19 @@ export class DetallesInmuebleComponent implements OnInit {
         this.alertService.errorApi(error.message);
       }
     });
+  }
+
+  // Reiniciar formulario
+  reiniciarFormularios(): void {
+    this.dataConsulta = {
+      codigo: '',
+      apellido: '',
+      nombre: '',
+      telefono: '',
+      email: '',
+      asunto: 'Consulta por inmueble',
+      mensaje: 'Contactar asesor'      
+    }
   }
 
 

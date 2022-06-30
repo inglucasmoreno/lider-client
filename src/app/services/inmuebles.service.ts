@@ -19,6 +19,13 @@ export class InmueblesService {
     });
   } 
 
+  // Inmueble por codigo
+  getInmueblePorCodigo(codigo: string): Observable<any>{
+    return this.http.get(`${base_url}/inmuebles/codigo/${codigo}`, {
+      headers: {}
+    });
+  } 
+
   // Listar inmuebles
   listarInmuebles(parametros: any): Observable<any>{
     return this.http.get(`${base_url}/inmuebles`, {

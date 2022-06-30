@@ -36,11 +36,7 @@ export class ConsultasService {
 
   // Nueva consulta
   nuevaConsulta(data: any): Observable<any>{
-    return this.http.post(`${base_url}/consultas`, data, {
-      headers: {
-        'Authorization': localStorage.getItem('token')
-      }
-    });  
+    return this.http.post(`${base_url}/consultas`, data);  
   }
 
   // Actualizar consulta

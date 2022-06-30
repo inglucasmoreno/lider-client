@@ -13,7 +13,9 @@ export class TarjetaComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    console.log(this.elemento);
+  }
 
   contactarAsesor(): void {
     this.contactarAsesorEvent.emit(this.elemento);

@@ -13,6 +13,7 @@ export class DataWebService {
   public inmueblesVenta;
   public inmueblesAlquiler;
   public showMenu = false;
+  public showModalInmueble = false;
 
   constructor(private inmobiliariaService: InmobiliariaService,
               private alertService: AlertService) { }

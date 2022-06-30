@@ -1,31 +1,31 @@
 <div class="w-full rounded-t mt-10 border shadow-xl">
     <div class="relative">
         <img class="rounded-t object-cover w-full h-60" src="assets/img/inmuebles/sin-imagen.png" alt="Imagen de inmueble">
-        <p  [ngClass]="{'bg-green-700' : elemento.alquiler_venta === 'Venta', 'bg-orange-700' : elemento.alquiler_venta === 'Alquiler'}"
+        <p  [ngClass]="{'bg-green-700' : elemento?.alquiler_venta === 'Venta', 'bg-orange-700' : elemento?.alquiler_venta === 'Alquiler'}"
             class="absolute top-0 right-0 py-2 px-4 text-white opacity-80"> 
-            {{ elemento.alquiler_venta }}
+            {{ elemento?.alquiler_venta }}
         </p>
         <p class="absolute bottom-0 left-0 bg-gray-900 p-2 text-white opacity-80">
-            {{ elemento.codigo }}
+            {{ elemento?.codigo }}
         </p>
     </div>
     <div class="p-2">
-        <p class="text-sm"> {{ elemento.descripcion_corta }} </p>
+        <p class="text-sm"> {{ elemento?.descripcion_corta }} </p>
         <div class="mt-5">
             <div>
-                <p class="text-sm capitalize"> {{ elemento.tipo }} </p>
-                <p class="text-sm capitalize"> {{ elemento.provincia.descripcion.toLowerCase() }} ({{ elemento.localidad.descripcion.toLowerCase() }}) </p>
+                <p class="text-sm capitalize"> {{ elemento?.tipo }} </p>
+                <p class="text-sm capitalize"> {{ elemento?.provincia?.descripcion.toLowerCase() }} ({{ elemento?.localidad?.descripcion.toLowerCase() }}) </p>
             </div>
         </div>
         <div class="flex items-center justify-between mt-2">
             <div></div>
-            <p *ngIf="elemento.precio_mostrar" class="text-md text-secondaryColor text-lg"> {{ elemento.precio_moneda === 'Dolares' ? 'US$' : '$' }}{{ elemento.precio_valor | moneda }} </p>
-            <p *ngIf="!elemento.precio_mostrar" class="text-md text-secondaryColor text-lg"> Consultar precio </p>
+            <p *ngIf="elemento?.precio_mostrar" class="text-md text-secondaryColor text-lg"> {{ elemento?.precio_moneda === 'Dolares' ? 'US$' : '$' }}{{ elemento?.precio_valor | moneda }} </p>
+            <p *ngIf="!elemento?.precio_mostrar" class="text-md text-secondaryColor text-lg"> Consultar precio </p>
         </div>
     </div>
     <hr>
     <div class="flex items-center justify-center mt-2 mb-2 w-full p-2">
         <button (click)="contactarAsesor()" class="p-2 border rounded w-1/2 bg-secondaryColor text-white"> Contactar asesor </button>
-        <button [routerLink]="['/web/detalles-inmueble/',elemento._id]" class="p-2 border rounded ml-2 w-1/2 bg-secondaryColor text-white"> Detalles </button>
+        <button [routerLink]="['/web/detalles-inmueble/',elemento?._id]" class="p-2 border rounded ml-2 w-1/2 bg-secondaryColor text-white"> Detalles </button>
     </div>
 </div>
